@@ -1,0 +1,2549 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Functional Anatomy · 기능해부학</title>
+<style>
+  /* ════════════════════════════════════════════════════════
+     APPLE-STYLE DESIGN SYSTEM TOKENS
+     ════════════════════════════════════════════════════════ */
+  :root {
+    /* Colors */
+    --primary: #0066cc;
+    --primary-focus: #0071e3;
+    --primary-on-dark: #2997ff;
+    --ink: #1d1d1f;
+    --body-on-dark: #ffffff;
+    --body-muted: #cccccc;
+    --ink-muted-80: #333333;
+    --ink-muted-48: #7a7a7a;
+    --divider-soft: #f0f0f0;
+    --hairline: #e0e0e0;
+    --canvas: #ffffff;
+    --canvas-parchment: #f5f5f7;
+    --surface-pearl: #fafafc;
+    --surface-tile-1: #272729;
+    --surface-tile-3: #252527;
+    --surface-black: #000000;
+    --surface-chip-translucent: rgba(210, 210, 215, 0.64);
+
+    /* Radii */
+    --r-none: 0;
+    --r-xs: 5px;
+    --r-sm: 8px;
+    --r-md: 11px;
+    --r-lg: 18px;
+    --r-pill: 9999px;
+
+    /* Spacing */
+    --s-xxs: 4px;
+    --s-xs: 8px;
+    --s-sm: 12px;
+    --s-md: 17px;
+    --s-lg: 24px;
+    --s-xl: 32px;
+    --s-xxl: 48px;
+    --s-section: 80px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: var(--ink);
+    background: var(--canvas);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ════════════════════════════════════════════════════════
+     GLOBAL NAV (true black, 44px, ultra-thin)
+     ════════════════════════════════════════════════════════ */
+  .global-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface-black);
+    color: var(--body-on-dark);
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .global-nav-inner {
+    width: 100%;
+    max-width: 1024px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "SF Pro Text", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.12px;
+    line-height: 1;
+  }
+  .global-nav-logo {
+    font-size: 18px;
+    line-height: 1;
+    opacity: 0.92;
+  }
+  .global-nav-links {
+    display: flex;
+    gap: 28px;
+    color: #f5f5f7;
+    opacity: 0.82;
+  }
+  .global-nav-links span {
+    cursor: default;
+    transition: opacity 0.2s;
+  }
+  .global-nav-links span:hover { opacity: 1; }
+
+  /* ════════════════════════════════════════════════════════
+     SUB-NAV (frosted glass, sticks under global)
+     ════════════════════════════════════════════════════════ */
+  .sub-nav {
+    position: sticky;
+    top: 44px;
+    z-index: 99;
+    background: rgba(245, 245, 247, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    height: 52px;
+    border-bottom: 1px solid var(--divider-soft);
+  }
+  .sub-nav-inner {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 22px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--ink);
+  }
+  .sub-nav-title {
+    font-family: "SF Pro Display", system-ui, sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.19;
+    letter-spacing: 0.231px;
+  }
+  .sub-nav-meta {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.224px;
+    color: var(--ink-muted-48);
+  }
+  .sub-nav-meta strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     HERO (full-bleed white tile, 80px section padding)
+     ════════════════════════════════════════════════════════ */
+  .hero {
+    background: var(--canvas);
+    padding: var(--s-section) 22px var(--s-section);
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: "SF Pro Display", system-ui, sans-serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+    color: var(--ink);
+  }
+  .hero .lead {
+    font-family: "SF Pro Display", system-ui, sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.14;
+    letter-spacing: 0.196px;
+    color: var(--ink-muted-80);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .hero .ko-sub {
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.19;
+    letter-spacing: 0.231px;
+    color: var(--primary);
+    margin-bottom: var(--s-xs);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     CONTROLS BAND (parchment surface, edge-to-edge)
+     ════════════════════════════════════════════════════════ */
+  .controls-band {
+    background: var(--canvas-parchment);
+    padding: 64px 22px;
+  }
+  .controls-inner {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  /* Search input — pill-shaped */
+  .search-wrap {
+    position: relative;
+    margin-bottom: var(--s-xl);
+  }
+  .search-wrap::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%237a7a7a' stroke-width='1.5'><circle cx='7' cy='7' r='5.25'/><line x1='10.7' y1='10.7' x2='14' y2='14' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+  }
+  #search {
+    width: 100%;
+    height: 52px;
+    padding: 0 24px 0 52px;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.374px;
+    background: var(--canvas);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--r-pill);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  #search:focus {
+    border-color: var(--primary-focus);
+    box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.18);
+  }
+  #search::placeholder {
+    color: var(--ink-muted-48);
+  }
+
+  /* Filter chips — pill shape, Action Blue when active */
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-xs);
+    justify-content: center;
+  }
+  .chip {
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    color: var(--ink);
+    padding: 8px 16px;
+    border-radius: var(--r-pill);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.224px;
+    line-height: 1.29;
+    cursor: pointer;
+    transition: transform 0.12s, border-color 0.2s, background-color 0.2s, color 0.2s;
+    user-select: none;
+  }
+  .chip:hover {
+    border-color: var(--ink-muted-48);
+  }
+  .chip:active { transform: scale(0.95); }
+  .chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--body-on-dark);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     RESULT META BAR
+     ════════════════════════════════════════════════════════ */
+  .result-bar {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: var(--s-xl) 22px var(--s-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink-muted-48);
+    font-size: 14px;
+    letter-spacing: -0.224px;
+  }
+  .result-bar .count-strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ════════════════════════════════════════════════════════
+     MUSCLE GRID — store-utility-card pattern
+     ════════════════════════════════════════════════════════ */
+  .muscle-section {
+    background: var(--canvas);
+    padding: var(--s-md) 22px var(--s-section);
+  }
+  .muscle-grid {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-lg);
+  }
+
+  .muscle-card {
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+    padding: var(--s-xxl) var(--s-xl);
+    transition: transform 0.15s, border-color 0.2s;
+  }
+  .muscle-card:hover {
+    border-color: var(--ink-muted-48);
+  }
+
+  /* Card header: English (display-md) → Korean new (body-strong) → old (caption muted) */
+  .muscle-name {
+    margin-bottom: var(--s-xl);
+    padding-bottom: var(--s-lg);
+    border-bottom: 1px solid var(--divider-soft);
+    position: relative;
+  }
+  .muscle-en {
+    font-family: "SF Pro Display", system-ui, sans-serif;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.374px;
+    color: var(--ink);
+    margin-bottom: var(--s-sm);
+  }
+  .muscle-ko-new {
+    font-family: "SF Pro Text", system-ui, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.374px;
+    line-height: 1.24;
+    color: var(--ink);
+    margin-bottom: var(--s-xxs);
+  }
+  .muscle-ko-old {
+    font-family: "SF Pro Text", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.224px;
+    line-height: 1.43;
+    color: var(--ink-muted-48);
+  }
+
+  /* Region tag — pill chip, sits at top right */
+  .muscle-region {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--canvas-parchment);
+    color: var(--ink-muted-80);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.12px;
+    padding: 6px 12px;
+    border-radius: var(--r-pill);
+    text-transform: none;
+  }
+
+  /* Info rows */
+  .muscle-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-lg);
+  }
+  .info-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: var(--s-lg);
+    align-items: baseline;
+  }
+  .info-label {
+    font-family: "SF Pro Text", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+    color: var(--primary);
+  }
+  .info-label .ko-tag {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.12px;
+    color: var(--ink-muted-48);
+    margin-top: 2px;
+  }
+
+  .info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .info-content .en {
+    font-family: "SF Pro Text", system-ui, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: var(--ink);
+  }
+  .info-content .ko-new {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+    color: var(--ink-muted-80);
+  }
+  .info-content .ko-old {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+    color: var(--ink-muted-48);
+  }
+  .info-content .ko-old::before {
+    content: '구) ';
+    color: var(--ink-muted-48);
+  }
+
+  mark {
+    background: rgba(0, 102, 204, 0.12);
+    color: var(--primary);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 120px 20px;
+    color: var(--ink-muted-48);
+  }
+  .empty-state .display {
+    font-family: "SF Pro Display", system-ui, sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: var(--s-sm);
+  }
+  .empty-state .sub {
+    font-size: 17px;
+    color: var(--ink-muted-48);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     FOOTER (parchment, dense links style)
+     ════════════════════════════════════════════════════════ */
+  footer {
+    background: var(--canvas-parchment);
+    color: var(--ink-muted-80);
+    padding: 64px 22px 32px;
+    border-top: 1px solid var(--divider-soft);
+  }
+  footer .footer-inner {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  footer h4 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.224px;
+    line-height: 1.29;
+    color: var(--ink);
+    margin-bottom: var(--s-xs);
+  }
+  footer .sources {
+    font-size: 12px;
+    line-height: 1.6;
+    letter-spacing: -0.12px;
+    color: var(--ink-muted-48);
+    margin-bottom: var(--s-xl);
+  }
+  footer .legal {
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    color: var(--ink-muted-48);
+    border-top: 1px solid var(--divider-soft);
+    padding-top: var(--s-md);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     RESPONSIVE
+     ════════════════════════════════════════════════════════ */
+  @media (max-width: 833px) {
+    .global-nav-links { display: none; }
+    .sub-nav-meta { display: none; }
+    .hero { padding: 64px 22px 48px; }
+    .hero h1 { font-size: 40px; letter-spacing: -0.4px; }
+    .hero .lead { font-size: 21px; }
+    .controls-band { padding: 48px 22px; }
+    .muscle-card { padding: 32px 24px; }
+    .muscle-en { font-size: 28px; }
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 34px; }
+    .hero .lead { font-size: 19px; }
+    .muscle-card { padding: 28px 20px; }
+    .muscle-en { font-size: 24px; }
+    .info-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .info-label {
+      padding-bottom: 4px;
+    }
+    .info-label .ko-tag { display: inline; margin-left: 8px; }
+    .muscle-region {
+      position: static;
+      display: inline-block;
+      margin-bottom: var(--s-sm);
+    }
+  }
+
+  @media (max-width: 419px) {
+    .hero h1 { font-size: 28px; }
+    .global-nav-inner { padding: 0 16px; }
+    .controls-band { padding: 32px 16px; }
+    .muscle-section { padding-left: 16px; padding-right: 16px; }
+  }
+
+  /* Print: simplify */
+  @media print {
+    .global-nav, .sub-nav, .controls-band, footer { display: none; }
+    .muscle-card { break-inside: avoid; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ GLOBAL NAV ═══ -->
+<nav class="global-nav">
+  <div class="global-nav-inner">
+    <span class="global-nav-logo"></span>
+    <div class="global-nav-links">
+      <span>Anatomy</span>
+      <span>Muscles</span>
+      <span>Study</span>
+      <span>Reference</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ SUB-NAV ═══ -->
+<div class="sub-nav">
+  <div class="sub-nav-inner">
+    <span class="sub-nav-title">기능해부학</span>
+    <span class="sub-nav-meta"><strong id="total-count">0</strong> muscles · 영어 · 신용어 · 구용어</span>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <h1>Functional anatomy</h1>
+</section>
+
+<!-- ═══ CONTROLS ═══ -->
+<section class="controls-band">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <input type="text" id="search" placeholder="검색  —  근육 이름, 신·구용어, 영어, 또는 작용·기시·정지 키워드" autocomplete="off">
+    </div>
+    <div class="filter-group" id="filters">
+      <button class="chip active" data-region="all">전체</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESULT BAR ═══ -->
+<div class="result-bar">
+  <span id="result-count"></span>
+  <span></span>
+</div>
+
+<!-- ═══ MUSCLE GRID ═══ -->
+<section class="muscle-section">
+  <div class="muscle-grid" id="muscle-list"></div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <h4>About this reference</h4>
+    <p class="sources">
+      <strong>출처</strong> · 영어 origin/insertion/action 정보는 TeachMeAnatomy, Kenhub, NCBI StatPearls, Physiopedia, Wikipedia (영문판) 의 표준 자료들을 교차 검증하여 정리.<br>
+      <strong>한국어 신용어/구용어</strong> · 대한해부학회 해부학용어 (5–6판) 표준을 기준으로 하되, 위키백과 한국어판과 표준 학습 자료를 참고함.<br>
+      <strong>검증 한계</strong> · 187개 근육 모두를 일일이 원전(原典)에서 검증하지는 못했습니다. 갈래별 분리, 손/발 내재근, 골반저, 심부 회전근 등 자주 쓰이는 부위는 표준 자료와 일치 확인하였으나, 한국어 신용어는 자료마다 표기 변이가 있을 수 있으니 (예: "이마힘살" vs "이마근", "오목위결절" vs "관절오목위결절") 시험 직전에는 본인 교과서와 대조 필수.
+    </p>
+    <p class="legal">
+      Compiled for personal study. Cross-check with your primary textbook before exams.<br>
+      Last reviewed against standard anatomy references (TeachMeAnatomy / Kenhub / NCBI StatPearls). Anatomical variations exist; this reference reflects the most commonly cited descriptions.
+    </p>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// MUSCLE DATABASE
+// ============================================================
+// ============================================================
+// FUNCTIONAL ANATOMY · MUSCLE DATABASE
+// 정보 출처:
+//  - 대한해부학회 해부학용어 (한국어 신용어/구용어)
+//  - TeachMeAnatomy, Kenhub, NCBI StatPearls,
+//    Physiopedia, Wikipedia (영어/해부학 정보)
+//  - Moore's Clinically Oriented Anatomy 기준
+// ============================================================
+
+const muscles = [
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 1. 안면 표정근 (FACIAL EXPRESSION) — N. facialis (CN VII) ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Frontalis (Occipitofrontalis, frontal belly)",
+  koNew: "이마힘살 (뒤통수이마근)",
+  koOld: "전두근 (후두전두근)",
+  region: "Face",
+  origin: { en: "Epicranial aponeurosis (galea aponeurotica)", new: "머리덮개널힘줄", old: "모상건막" },
+  insertion: { en: "Skin of eyebrows and root of nose", new: "눈썹·코뿌리 피부", old: "미모·비근부 피부" },
+  action: { en: "Elevates eyebrows, wrinkles forehead", new: "눈썹 올림, 이마 주름 형성", old: "미모 거상, 전두부 주름 형성" }
+},
+{
+  en: "Occipitalis (Occipitofrontalis, occipital belly)",
+  koNew: "뒤통수힘살 (뒤통수이마근)",
+  koOld: "후두근 (후두전두근)",
+  region: "Face",
+  origin: { en: "Lateral 2/3 of superior nuchal line, mastoid process", new: "위목덜미선 가쪽 2/3, 꼭지돌기", old: "상항선 외측 2/3, 유양돌기" },
+  insertion: { en: "Epicranial aponeurosis", new: "머리덮개널힘줄", old: "모상건막" },
+  action: { en: "Retracts scalp, fixes aponeurosis for frontalis", new: "두피 뒤당김, 이마근 작용 보조", old: "두피 후방 견인, 전두근 작용 보조" }
+},
+{
+  en: "Orbicularis Oculi",
+  koNew: "눈둘레근",
+  koOld: "안륜근",
+  region: "Face",
+  origin: { en: "Medial orbital margin, medial palpebral ligament, lacrimal bone", new: "안쪽눈확모서리, 안쪽눈꺼풀인대, 눈물뼈", old: "내측안와연, 내안각인대, 누골" },
+  insertion: { en: "Skin around eye, lateral palpebral raphe", new: "눈 주위 피부, 가쪽눈꺼풀솔기", old: "안검부 피부, 외측안검봉선" },
+  action: { en: "Closes eyelids (gentle blinking & forced closure), tear drainage", new: "눈꺼풀 닫음(깜박임·강한 감음), 눈물 배출 보조", old: "안검 폐쇄(순목·강폐쇄), 누액 배출 보조" }
+},
+{
+  en: "Orbicularis Oris",
+  koNew: "입둘레근",
+  koOld: "구륜근",
+  region: "Face",
+  origin: { en: "Maxilla and mandible (medial), surrounding facial muscles", new: "위턱뼈·아래턱뼈 안쪽부, 주변 얼굴근육", old: "상악골·하악골 내측부, 주위 안면근" },
+  insertion: { en: "Skin and mucous membrane of lips", new: "입술 피부·점막", old: "구순부 피부·점막" },
+  action: { en: "Closes and protrudes lips (kissing, whistling)", new: "입술 닫음·내밀기 (키스·휘파람)", old: "구순 폐쇄·전돌 (구순 돌출)" }
+},
+{
+  en: "Buccinator",
+  koNew: "볼근",
+  koOld: "협근",
+  region: "Face",
+  origin: { en: "Alveolar processes of maxilla & mandible, pterygomandibular raphe", new: "위·아래턱뼈 이틀돌기, 날개아래턱솔기", old: "상하악골 치조돌기, 익돌하악봉선" },
+  insertion: { en: "Angle of mouth, blends with orbicularis oris", new: "입꼬리, 입둘레근과 융합", old: "구각부, 구륜근과 융합" },
+  action: { en: "Compresses cheek against teeth (chewing, blowing)", new: "볼을 치아 쪽으로 압박 (씹기·불기)", old: "협부를 치아쪽으로 압박 (저작·취주)" }
+},
+{
+  en: "Zygomaticus Major",
+  koNew: "큰광대근",
+  koOld: "대관골근",
+  region: "Face",
+  origin: { en: "Zygomatic bone (anterior to zygomaticotemporal suture)", new: "광대뼈 (광대관자봉합 앞쪽)", old: "관골 (관골측두봉합 전방)" },
+  insertion: { en: "Angle of mouth (modiolus)", new: "입꼬리 (입꼬리매듭)", old: "구각 (모디올러스)" },
+  action: { en: "Elevates and draws angle of mouth laterally (smiling)", new: "입꼬리 올림·가쪽 당김 (미소)", old: "구각 거상·외측 견인 (소(笑))" }
+},
+{
+  en: "Zygomaticus Minor",
+  koNew: "작은광대근",
+  koOld: "소관골근",
+  region: "Face",
+  origin: { en: "Zygomatic bone (posterior to zygomaticomaxillary suture)", new: "광대뼈 (광대위턱봉합 뒤쪽)", old: "관골 (관골상악봉합 후방)" },
+  insertion: { en: "Upper lip lateral to angle of mouth", new: "입꼬리 가쪽 위입술", old: "구각 외측 상순" },
+  action: { en: "Elevates upper lip (sneering)", new: "윗입술 올림 (코웃음)", old: "상순 거상" }
+},
+{
+  en: "Levator Labii Superioris",
+  koNew: "위입술올림근",
+  koOld: "상순거근",
+  region: "Face",
+  origin: { en: "Inferior margin of orbit (maxilla)", new: "눈확 아래모서리 (위턱뼈)", old: "안와하연 (상악)" },
+  insertion: { en: "Skin and muscle of upper lip", new: "윗입술 피부·근육", old: "상순 피부·근육" },
+  action: { en: "Elevates upper lip", new: "윗입술 올림", old: "상순 거상" }
+},
+{
+  en: "Levator Anguli Oris",
+  koNew: "입꼬리올림근",
+  koOld: "구각거근",
+  region: "Face",
+  origin: { en: "Canine fossa of maxilla", new: "위턱뼈 송곳니오목", old: "상악 견치와" },
+  insertion: { en: "Angle of mouth", new: "입꼬리", old: "구각" },
+  action: { en: "Elevates angle of mouth", new: "입꼬리 올림", old: "구각 거상" }
+},
+{
+  en: "Depressor Anguli Oris",
+  koNew: "입꼬리내림근",
+  koOld: "구각하제근",
+  region: "Face",
+  origin: { en: "Oblique line of mandible", new: "아래턱뼈 빗선", old: "하악 사선" },
+  insertion: { en: "Angle of mouth (modiolus)", new: "입꼬리매듭", old: "구각 모디올러스" },
+  action: { en: "Depresses angle of mouth (frowning)", new: "입꼬리 내림 (찡그림)", old: "구각 하강 (불쾌 표정)" }
+},
+{
+  en: "Depressor Labii Inferioris",
+  koNew: "아래입술내림근",
+  koOld: "하순하제근",
+  region: "Face",
+  origin: { en: "Oblique line of mandible (between symphysis and mental foramen)", new: "아래턱뼈 빗선 (결합~턱끝구멍 사이)", old: "하악 사선 (정중결합~이공 사이)" },
+  insertion: { en: "Skin of lower lip", new: "아래입술 피부", old: "하순 피부" },
+  action: { en: "Depresses lower lip", new: "아래입술 내림", old: "하순 하강" }
+},
+{
+  en: "Mentalis",
+  koNew: "턱끝근",
+  koOld: "이근",
+  region: "Face",
+  origin: { en: "Incisive fossa of mandible", new: "아래턱뼈 앞니오목", old: "하악 절치와" },
+  insertion: { en: "Skin of chin", new: "턱끝 피부", old: "이부 피부" },
+  action: { en: "Elevates and protrudes lower lip, wrinkles chin (pouting)", new: "아래입술 올림·내밀기, 턱 주름 (삐죽거림)", old: "하순 거상·전돌, 이부 주름" }
+},
+{
+  en: "Risorius",
+  koNew: "입꼬리당김근",
+  koOld: "소근",
+  region: "Face",
+  origin: { en: "Fascia over masseter (parotid fascia)", new: "깨물근 위 근막 (귀밑샘근막)", old: "교근 상부 근막 (이하선근막)" },
+  insertion: { en: "Skin at angle of mouth", new: "입꼬리 피부", old: "구각부 피부" },
+  action: { en: "Retracts angle of mouth (grin)", new: "입꼬리 가쪽 당김 (히죽 웃음)", old: "구각 외측 견인" }
+},
+{
+  en: "Platysma",
+  koNew: "넓은목근",
+  koOld: "광경근",
+  region: "Face",
+  origin: { en: "Fascia of pectoralis major and deltoid", new: "큰가슴근·어깨세모근 근막", old: "대흉근·삼각근 근막" },
+  insertion: { en: "Inferior border of mandible, skin of lower face", new: "아래턱뼈 아래모서리, 아래얼굴 피부", old: "하악골 하연, 하안면부 피부" },
+  action: { en: "Tenses skin of neck, depresses mandible & lower lip", new: "목 피부 긴장, 아래턱·아래입술 내림", old: "경부 피부 긴장, 하악·하순 하강" }
+},
+{
+  en: "Corrugator Supercilii",
+  koNew: "눈썹주름근",
+  koOld: "추미근",
+  region: "Face",
+  origin: { en: "Medial end of supraorbital margin", new: "눈확위모서리 안쪽 끝", old: "안와상연 내측단" },
+  insertion: { en: "Skin above middle of eyebrow", new: "눈썹 중간 위 피부", old: "미모 중앙 상부 피부" },
+  action: { en: "Draws eyebrows medially and inferiorly (frowning)", new: "눈썹을 안쪽 아래로 당김 (찡그림)", old: "미모를 내측 하방으로 당김 (추미)" }
+},
+{
+  en: "Procerus",
+  koNew: "눈살근",
+  koOld: "비근근",
+  region: "Face",
+  origin: { en: "Fascia over nasal bone and lateral nasal cartilage", new: "코뼈·가쪽코연골 위 근막", old: "비골·외측비연골 상부 근막" },
+  insertion: { en: "Skin between eyebrows", new: "두 눈썹 사이 피부", old: "양 미간 피부" },
+  action: { en: "Wrinkles skin of nose, draws medial eyebrows down", new: "코 피부 주름, 눈썹 안쪽 끝 내림", old: "비부 피부 주름, 미모 내측단 하강" }
+},
+{
+  en: "Nasalis",
+  koNew: "코근",
+  koOld: "비근",
+  region: "Face",
+  origin: { en: "Maxilla above incisor teeth", new: "앞니 위쪽 위턱뼈", old: "절치 상부 상악" },
+  insertion: { en: "Nasal cartilages, bridge of nose", new: "코연골, 콧등", old: "비연골, 비배" },
+  action: { en: "Compresses (transverse part) and dilates (alar part) nostrils", new: "콧구멍 좁힘(가로부)·넓힘(콧방울부)", old: "비공 압축(횡부)·확장(비익부)" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 2. 저작근 (MASTICATION) — N. mandibularis (CN V3)        ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Masseter",
+  koNew: "깨물근",
+  koOld: "교근",
+  region: "Mastication",
+  origin: { en: "Superficial part: maxillary process of zygomatic bone & anterior 2/3 of zygomatic arch; Deep part: posterior 1/3 and medial surface of zygomatic arch", new: "얕은부분: 광대뼈 위턱돌기, 광대활 앞 2/3 / 깊은부분: 광대활 뒤 1/3·안쪽면", old: "천부: 관골 상악돌기, 관골궁 전 2/3 / 심부: 관골궁 후 1/3·내측면" },
+  insertion: { en: "Lateral surface of ramus, angle and coronoid process of mandible", new: "아래턱뼈 가지의 가쪽면, 턱각, 근육돌기", old: "하악지 외측면, 하악각, 근돌기" },
+  action: { en: "Elevation of mandible (closes jaw), assists in protraction", new: "아래턱 올림 (입 닫음), 내밈 보조", old: "하악 거상 (폐구), 전돌 보조" }
+},
+{
+  en: "Temporalis",
+  koNew: "관자근",
+  koOld: "측두근",
+  region: "Mastication",
+  origin: { en: "Temporal fossa and deep surface of temporal fascia", new: "관자우묵, 관자근막 깊은면", old: "측두와, 측두근막 심부면" },
+  insertion: { en: "Coronoid process and anterior border of ramus of mandible", new: "아래턱뼈 근육돌기·가지 앞모서리", old: "하악 근돌기·하악지 전연" },
+  action: { en: "Elevates mandible (anterior fibers); retracts mandible (posterior fibers)", new: "앞섬유: 아래턱 올림 / 뒷섬유: 아래턱 뒤당김", old: "전부: 하악 거상 / 후부: 하악 후인" }
+},
+{
+  en: "Medial Pterygoid",
+  koNew: "안쪽날개근",
+  koOld: "내측익돌근",
+  region: "Mastication",
+  origin: { en: "Deep head: medial surface of lateral pterygoid plate; Superficial head: maxillary tuberosity & pyramidal process of palatine bone", new: "깊은갈래: 가쪽날개근판 안쪽면 / 얕은갈래: 위턱뼈결절·입천장뼈 피라미드돌기", old: "심두: 외측익돌판 내측면 / 천두: 상악결절·구개골 추체돌기" },
+  insertion: { en: "Medial surface of ramus & angle of mandible", new: "아래턱뼈 가지·턱각 안쪽면", old: "하악지·하악각 내측면" },
+  action: { en: "Elevates mandible; assists protrusion; lateral excursion (contralateral)", new: "아래턱 올림, 내밈 보조, 가쪽 운동(반대쪽)", old: "하악 거상, 전돌 보조, 측방 운동(반대측)" }
+},
+{
+  en: "Lateral Pterygoid",
+  koNew: "가쪽날개근",
+  koOld: "외측익돌근",
+  region: "Mastication",
+  origin: { en: "Superior head: infratemporal surface of greater wing of sphenoid; Inferior head: lateral surface of lateral pterygoid plate", new: "위갈래: 나비뼈 큰날개의 관자아래면 / 아래갈래: 가쪽날개근판 가쪽면", old: "상두: 접형골 대익 측두하면 / 하두: 외측익돌판 외측면" },
+  insertion: { en: "Pterygoid fovea on neck of mandible, articular disc & capsule of TMJ", new: "아래턱뼈목 날개근오목, 턱관절원반·관절주머니", old: "하악경 익돌와, 악관절원판·관절포" },
+  action: { en: "Depresses mandible (opens jaw), protrudes mandible, contralateral excursion", new: "아래턱 내림 (입 벌림), 내밈, 반대쪽 측방운동", old: "하악 하강 (개구), 전돌, 반대측 측방운동" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 3. 목 / 경부 (NECK)                                      ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Sternocleidomastoid (SCM)",
+  koNew: "목빗근",
+  koOld: "흉쇄유돌근",
+  region: "Neck",
+  origin: { en: "Sternal head: anterior surface of manubrium of sternum; Clavicular head: superior surface of medial 1/3 of clavicle", new: "복장갈래: 복장뼈자루 앞면 / 빗장갈래: 빗장뼈 안쪽 1/3 위면", old: "흉골두: 흉골병 전면 / 쇄골두: 쇄골 내측 1/3 상면" },
+  insertion: { en: "Mastoid process of temporal bone, lateral half of superior nuchal line", new: "관자뼈 꼭지돌기, 위목덜미선 가쪽 절반", old: "측두골 유양돌기, 상항선 외측 1/2" },
+  action: { en: "Bilateral: flexes neck & extends head; Unilateral: ipsilateral lateral flexion, contralateral rotation", new: "양쪽: 목 굽힘·머리 폄 / 한쪽: 같은쪽 가쪽굽힘, 반대쪽 돌림", old: "양측: 경부 굴곡·두부 신전 / 일측: 동측 측굴, 반대측 회전" }
+},
+{
+  en: "Scalenus Anterior",
+  koNew: "앞목갈비근",
+  koOld: "전사각근",
+  region: "Neck",
+  origin: { en: "Anterior tubercles of transverse processes of C3–C6", new: "C3–C6 가로돌기 앞결절", old: "C3–C6 횡돌기 전결절" },
+  insertion: { en: "Scalene tubercle on inner border of 1st rib", new: "1번 갈비뼈 안쪽모서리 목갈비근결절", old: "제1늑골 내연 사각근결절" },
+  action: { en: "Elevates 1st rib (inspiration); ipsilateral lateral flexion of neck", new: "1번 갈비뼈 올림(들숨), 목 같은쪽 가쪽굽힘", old: "제1늑골 거상(흡기), 경부 동측 측굴" }
+},
+{
+  en: "Scalenus Medius",
+  koNew: "중간목갈비근",
+  koOld: "중사각근",
+  region: "Neck",
+  origin: { en: "Posterior tubercles of transverse processes of C2–C7", new: "C2–C7 가로돌기 뒤결절", old: "C2–C7 횡돌기 후결절" },
+  insertion: { en: "Superior surface of 1st rib (posterior to subclavian artery groove)", new: "1번 갈비뼈 위면 (빗장밑동맥고랑 뒤쪽)", old: "제1늑골 상면 (쇄골하동맥구 후방)" },
+  action: { en: "Elevates 1st rib; ipsilateral lateral flexion of neck", new: "1번 갈비뼈 올림, 목 같은쪽 가쪽굽힘", old: "제1늑골 거상, 경부 동측 측굴" }
+},
+{
+  en: "Scalenus Posterior",
+  koNew: "뒤목갈비근",
+  koOld: "후사각근",
+  region: "Neck",
+  origin: { en: "Posterior tubercles of transverse processes of C5–C7", new: "C5–C7 가로돌기 뒤결절", old: "C5–C7 횡돌기 후결절" },
+  insertion: { en: "Outer surface of 2nd rib", new: "2번 갈비뼈 바깥면", old: "제2늑골 외면" },
+  action: { en: "Elevates 2nd rib; ipsilateral lateral flexion of neck", new: "2번 갈비뼈 올림, 목 같은쪽 가쪽굽힘", old: "제2늑골 거상, 경부 동측 측굴" }
+},
+{
+  en: "Splenius Capitis",
+  koNew: "머리널판근",
+  koOld: "두판상근",
+  region: "Neck",
+  origin: { en: "Lower half of nuchal ligament, spinous processes of C7–T3", new: "목덜미인대 아래쪽 절반, C7–T3 가시돌기", old: "항인대 하반부, C7–T3 극돌기" },
+  insertion: { en: "Mastoid process and lateral 1/3 of superior nuchal line", new: "꼭지돌기, 위목덜미선 가쪽 1/3", old: "유양돌기, 상항선 외측 1/3" },
+  action: { en: "Bilateral: extends head; Unilateral: ipsilateral rotation & lateral flexion", new: "양쪽: 머리 폄 / 한쪽: 같은쪽 돌림·가쪽굽힘", old: "양측: 두부 신전 / 일측: 동측 회전·측굴" }
+},
+{
+  en: "Splenius Cervicis",
+  koNew: "목널판근",
+  koOld: "경판상근",
+  region: "Neck",
+  origin: { en: "Spinous processes of T3–T6", new: "T3–T6 가시돌기", old: "T3–T6 극돌기" },
+  insertion: { en: "Posterior tubercles of transverse processes of C1–C3", new: "C1–C3 가로돌기 뒤결절", old: "C1–C3 횡돌기 후결절" },
+  action: { en: "Bilateral: extends neck; Unilateral: ipsilateral rotation & lateral flexion of neck", new: "양쪽: 목 폄 / 한쪽: 목 같은쪽 돌림·가쪽굽힘", old: "양측: 경부 신전 / 일측: 경부 동측 회전·측굴" }
+},
+{
+  en: "Longus Colli",
+  koNew: "긴목근",
+  koOld: "경장근",
+  region: "Neck",
+  origin: { en: "Anterior bodies and transverse processes of C3–T3 vertebrae", new: "C3–T3 척추몸통 앞면·가로돌기", old: "C3–T3 추체 전면·횡돌기" },
+  insertion: { en: "Anterior tubercle of atlas, bodies of C2–C4", new: "고리뼈 앞결절, C2–C4 척추몸통", old: "환추 전결절, C2–C4 추체" },
+  action: { en: "Cervical flexion, slight rotation and lateral flexion", new: "목 굽힘, 약한 돌림·가쪽굽힘", old: "경부 굴곡, 약한 회전·측굴" }
+},
+{
+  en: "Longus Capitis",
+  koNew: "긴머리근",
+  koOld: "두장근",
+  region: "Neck",
+  origin: { en: "Anterior tubercles of transverse processes of C3–C6", new: "C3–C6 가로돌기 앞결절", old: "C3–C6 횡돌기 전결절" },
+  insertion: { en: "Basilar part of occipital bone", new: "뒤통수뼈 바닥부분", old: "후두골 기저부" },
+  action: { en: "Flexion of head", new: "머리 굽힘", old: "두부 굴곡" }
+},
+{
+  en: "Suboccipital — Rectus Capitis Posterior Major",
+  koNew: "뒤통수밑근 — 큰뒤머리곧은근",
+  koOld: "후두하근 — 대후두직근",
+  region: "Neck",
+  origin: { en: "Spinous process of axis (C2)", new: "중쇠뼈(C2) 가시돌기", old: "축추(C2) 극돌기" },
+  insertion: { en: "Lateral part of inferior nuchal line of occipital bone", new: "뒤통수뼈 아래목덜미선 가쪽부", old: "후두골 하항선 외측부" },
+  action: { en: "Extends and ipsilaterally rotates head", new: "머리 폄·같은쪽 돌림", old: "두부 신전·동측 회전" }
+},
+{
+  en: "Suboccipital — Rectus Capitis Posterior Minor",
+  koNew: "뒤통수밑근 — 작은뒤머리곧은근",
+  koOld: "후두하근 — 소후두직근",
+  region: "Neck",
+  origin: { en: "Posterior tubercle of atlas (C1)", new: "고리뼈(C1) 뒤결절", old: "환추(C1) 후결절" },
+  insertion: { en: "Medial part of inferior nuchal line", new: "아래목덜미선 안쪽부", old: "하항선 내측부" },
+  action: { en: "Extends head", new: "머리 폄", old: "두부 신전" }
+},
+{
+  en: "Suboccipital — Obliquus Capitis Superior",
+  koNew: "뒤통수밑근 — 위머리빗근",
+  koOld: "후두하근 — 상두사근",
+  region: "Neck",
+  origin: { en: "Transverse process of atlas (C1)", new: "고리뼈(C1) 가로돌기", old: "환추(C1) 횡돌기" },
+  insertion: { en: "Between superior and inferior nuchal lines (lateral to semispinalis capitis)", new: "위·아래 목덜미선 사이 (머리반가시근 가쪽)", old: "상·하 항선 사이 (두반극근 외측)" },
+  action: { en: "Extends head, lateral flexion to same side", new: "머리 폄, 같은쪽 가쪽굽힘", old: "두부 신전, 동측 측굴" }
+},
+{
+  en: "Suboccipital — Obliquus Capitis Inferior",
+  koNew: "뒤통수밑근 — 아래머리빗근",
+  koOld: "후두하근 — 하두사근",
+  region: "Neck",
+  origin: { en: "Spinous process of axis (C2)", new: "중쇠뼈(C2) 가시돌기", old: "축추(C2) 극돌기" },
+  insertion: { en: "Transverse process of atlas (C1)", new: "고리뼈(C1) 가로돌기", old: "환추(C1) 횡돌기" },
+  action: { en: "Ipsilateral rotation of atlas (turns head to same side)", new: "고리뼈 같은쪽 돌림 (머리 같은쪽 회전)", old: "환추 동측 회전 (두부 동측 회전)" }
+},
+{
+  en: "Digastric",
+  koNew: "두힘살근",
+  koOld: "악이복근",
+  region: "Neck",
+  origin: { en: "Anterior belly: digastric fossa of mandible; Posterior belly: mastoid notch of temporal bone", new: "앞힘살: 아래턱뼈 두힘살근오목 / 뒤힘살: 관자뼈 꼭지패임", old: "전복: 하악 이복근와 / 후복: 측두골 유돌절흔" },
+  insertion: { en: "Intermediate tendon attached to hyoid bone", new: "목뿔뼈에 부착된 중간힘줄", old: "설골에 부착된 중간건" },
+  action: { en: "Elevates hyoid bone, depresses mandible (opens jaw)", new: "목뿔뼈 올림, 아래턱 내림 (입 벌림)", old: "설골 거상, 하악 하강 (개구)" }
+},
+{
+  en: "Mylohyoid",
+  koNew: "턱목뿔근",
+  koOld: "악설골근",
+  region: "Neck",
+  origin: { en: "Mylohyoid line of mandible", new: "아래턱뼈 턱목뿔근선", old: "하악골 악설골근선" },
+  insertion: { en: "Hyoid bone and median raphe", new: "목뿔뼈, 정중솔기", old: "설골, 정중봉선" },
+  action: { en: "Elevates hyoid bone and floor of mouth, depresses mandible", new: "목뿔뼈·입바닥 올림, 아래턱 내림", old: "설골·구강저 거상, 하악 하강" }
+},
+{
+  en: "Geniohyoid",
+  koNew: "턱끝목뿔근",
+  koOld: "이설골근",
+  region: "Neck",
+  origin: { en: "Inferior mental spine of mandible", new: "아래턱뼈 아래턱끝가시", old: "하악 하이극" },
+  insertion: { en: "Body of hyoid bone", new: "목뿔뼈 몸통", old: "설골체" },
+  action: { en: "Elevates and protracts hyoid, depresses mandible", new: "목뿔뼈 올림·앞당김, 아래턱 내림", old: "설골 거상·전인, 하악 하강" }
+},
+{
+  en: "Stylohyoid",
+  koNew: "붓목뿔근",
+  koOld: "경돌설골근",
+  region: "Neck",
+  origin: { en: "Styloid process of temporal bone", new: "관자뼈 붓돌기", old: "측두골 경상돌기" },
+  insertion: { en: "Body of hyoid bone", new: "목뿔뼈 몸통", old: "설골체" },
+  action: { en: "Elevates and retracts hyoid", new: "목뿔뼈 올림·뒤당김", old: "설골 거상·후인" }
+},
+{
+  en: "Sternohyoid",
+  koNew: "복장목뿔근",
+  koOld: "흉골설골근",
+  region: "Neck",
+  origin: { en: "Manubrium of sternum, medial end of clavicle", new: "복장뼈자루, 빗장뼈 안쪽 끝", old: "흉골병, 쇄골 내측단" },
+  insertion: { en: "Body of hyoid bone", new: "목뿔뼈 몸통", old: "설골체" },
+  action: { en: "Depresses hyoid bone after elevation in swallowing", new: "삼킴 후 목뿔뼈 내림", old: "연하 후 설골 하강" }
+},
+{
+  en: "Sternothyroid",
+  koNew: "복장방패근",
+  koOld: "흉골갑상근",
+  region: "Neck",
+  origin: { en: "Posterior surface of manubrium of sternum", new: "복장뼈자루 뒷면", old: "흉골병 후면" },
+  insertion: { en: "Oblique line of thyroid cartilage", new: "방패연골 빗선", old: "갑상연골 사선" },
+  action: { en: "Depresses larynx (thyroid cartilage)", new: "후두(방패연골) 내림", old: "후두(갑상연골) 하강" }
+},
+{
+  en: "Thyrohyoid",
+  koNew: "방패목뿔근",
+  koOld: "갑상설골근",
+  region: "Neck",
+  origin: { en: "Oblique line of thyroid cartilage", new: "방패연골 빗선", old: "갑상연골 사선" },
+  insertion: { en: "Inferior border of greater horn of hyoid bone", new: "목뿔뼈 큰뿔 아래모서리", old: "설골 대각 하연" },
+  action: { en: "Depresses hyoid; elevates larynx when hyoid is fixed", new: "목뿔뼈 내림, 목뿔뼈 고정 시 후두 올림", old: "설골 하강, 설골 고정 시 후두 거상" }
+},
+{
+  en: "Omohyoid",
+  koNew: "어깨목뿔근",
+  koOld: "견갑설골근",
+  region: "Neck",
+  origin: { en: "Inferior belly: superior border of scapula; Superior belly: intermediate tendon", new: "아래힘살: 어깨뼈 위모서리 / 위힘살: 중간힘줄", old: "하복: 견갑골 상연 / 상복: 중간건" },
+  insertion: { en: "Inferior border of body of hyoid bone", new: "목뿔뼈몸통 아래모서리", old: "설골체 하연" },
+  action: { en: "Depresses hyoid bone after elevation", new: "올라간 목뿔뼈 내림", old: "거상된 설골 하강" }
+},
+// Part 2: 등 / 몸통 / 호흡근
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 4. 등 (BACK)                                             ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Trapezius — Upper Fibers",
+  koNew: "등세모근 — 위섬유",
+  koOld: "승모근 — 상부섬유",
+  region: "Back",
+  origin: { en: "External occipital protuberance, medial 1/3 of superior nuchal line, ligamentum nuchae", new: "바깥뒤통수뼈융기, 위목덜미선 안쪽 1/3, 목덜미인대", old: "외후두융기, 상항선 내측 1/3, 항인대" },
+  insertion: { en: "Lateral 1/3 of clavicle", new: "빗장뼈 가쪽 1/3", old: "쇄골 외측 1/3" },
+  action: { en: "Scapular elevation, upward rotation; cervical extension", new: "어깨뼈 올림·위돌림, 목 폄", old: "견갑골 거상·상방회전, 경부 신전" }
+},
+{
+  en: "Trapezius — Middle Fibers",
+  koNew: "등세모근 — 중간섬유",
+  koOld: "승모근 — 중부섬유",
+  region: "Back",
+  origin: { en: "Spinous processes of C7–T3", new: "C7–T3 가시돌기", old: "C7–T3 극돌기" },
+  insertion: { en: "Acromion and superior crest of spine of scapula", new: "봉우리, 어깨뼈가시 위능선", old: "견봉, 견갑극 상연" },
+  action: { en: "Scapular retraction (adduction)", new: "어깨뼈 모음 (뒤당김)", old: "견갑골 후인" }
+},
+{
+  en: "Trapezius — Lower Fibers",
+  koNew: "등세모근 — 아래섬유",
+  koOld: "승모근 — 하부섬유",
+  region: "Back",
+  origin: { en: "Spinous processes of T4–T12", new: "T4–T12 가시돌기", old: "T4–T12 극돌기" },
+  insertion: { en: "Medial end of spine of scapula (deltoid tubercle)", new: "어깨뼈가시 안쪽 끝 (세모근결절)", old: "견갑극 내측단 (삼각근결절)" },
+  action: { en: "Scapular depression and upward rotation", new: "어깨뼈 내림·위돌림", old: "견갑골 하강·상방회전" }
+},
+{
+  en: "Latissimus Dorsi",
+  koNew: "넓은등근",
+  koOld: "광배근",
+  region: "Back",
+  origin: { en: "Spinous processes of T7–L5, thoracolumbar fascia, posterior iliac crest, lower 3–4 ribs, inferior angle of scapula", new: "T7–L5 가시돌기, 등허리근막, 엉덩뼈능선 뒤쪽, 아래 3–4 갈비뼈, 어깨뼈 아래각", old: "T7–L5 극돌기, 흉요근막, 장골릉 후부, 하위 3–4 늑골, 견갑골 하각" },
+  insertion: { en: "Floor of intertubercular sulcus of humerus", new: "위팔뼈 결절사이고랑 바닥", old: "상완골 결절간구 저부" },
+  action: { en: "Shoulder extension, adduction, medial rotation; assists trunk extension", new: "어깨관절 폄·모음·안쪽돌림, 몸통 폄 보조", old: "견관절 신전·내전·내회전, 체간 신전 보조" }
+},
+{
+  en: "Rhomboid Major",
+  koNew: "큰마름근",
+  koOld: "대능형근",
+  region: "Back",
+  origin: { en: "Spinous processes of T2–T5", new: "T2–T5 가시돌기", old: "T2–T5 극돌기" },
+  insertion: { en: "Medial border of scapula below spine of scapula", new: "어깨뼈가시 아래 어깨뼈 안쪽모서리", old: "견갑극 하방 견갑골 내측연" },
+  action: { en: "Scapular retraction, downward rotation, elevation", new: "어깨뼈 모음·아래돌림·올림", old: "견갑골 후인·하방회전·거상" }
+},
+{
+  en: "Rhomboid Minor",
+  koNew: "작은마름근",
+  koOld: "소능형근",
+  region: "Back",
+  origin: { en: "Lower nuchal ligament, spinous processes of C7–T1", new: "목덜미인대 아래쪽, C7–T1 가시돌기", old: "항인대 하부, C7–T1 극돌기" },
+  insertion: { en: "Medial border of scapula at root of spine of scapula", new: "어깨뼈가시 뿌리 부위의 어깨뼈 안쪽모서리", old: "견갑극 근부 견갑골 내측연" },
+  action: { en: "Scapular retraction, downward rotation, elevation", new: "어깨뼈 모음·아래돌림·올림", old: "견갑골 후인·하방회전·거상" }
+},
+{
+  en: "Levator Scapulae",
+  koNew: "어깨올림근",
+  koOld: "견갑거근",
+  region: "Back",
+  origin: { en: "Posterior tubercles of transverse processes of C1–C4", new: "C1–C4 가로돌기 뒤결절", old: "C1–C4 횡돌기 후결절" },
+  insertion: { en: "Medial border of scapula superior to spine of scapula", new: "어깨뼈가시 위쪽 어깨뼈 안쪽모서리", old: "견갑극 상부 견갑골 내측연" },
+  action: { en: "Elevation and downward rotation of scapula; ipsilateral lateral flexion of neck", new: "어깨뼈 올림·아래돌림, 목 같은쪽 가쪽굽힘", old: "견갑골 거상·하방회전, 경부 동측 측굴" }
+},
+{
+  en: "Serratus Posterior Superior",
+  koNew: "위뒤톱니근",
+  koOld: "상후거근",
+  region: "Back",
+  origin: { en: "Lower nuchal ligament, spinous processes of C7–T3", new: "목덜미인대 아래쪽, C7–T3 가시돌기", old: "항인대 하부, C7–T3 극돌기" },
+  insertion: { en: "Upper borders of ribs 2–5", new: "2–5번 갈비뼈 위모서리", old: "제2–5 늑골 상연" },
+  action: { en: "Elevates ribs 2–5 (inspiration)", new: "2–5번 갈비뼈 올림 (들숨)", old: "제2–5 늑골 거상 (흡기)" }
+},
+{
+  en: "Serratus Posterior Inferior",
+  koNew: "아래뒤톱니근",
+  koOld: "하후거근",
+  region: "Back",
+  origin: { en: "Spinous processes of T11–L2 (thoracolumbar fascia)", new: "T11–L2 가시돌기 (등허리근막)", old: "T11–L2 극돌기 (흉요근막)" },
+  insertion: { en: "Lower borders of ribs 9–12", new: "9–12번 갈비뼈 아래모서리", old: "제9–12 늑골 하연" },
+  action: { en: "Depresses ribs 9–12 (expiration), counters diaphragm pull", new: "9–12번 갈비뼈 내림 (날숨), 가로막 작용 길항", old: "제9–12 늑골 하강 (호기), 횡격막 길항" }
+},
+{
+  en: "Erector Spinae — Iliocostalis",
+  koNew: "척주세움근 — 엉덩갈비근",
+  koOld: "척주기립근 — 장늑근",
+  region: "Back",
+  origin: { en: "Iliac crest, sacrum, ribs", new: "엉덩뼈능선, 엉치뼈, 갈비뼈", old: "장골릉, 천골, 늑골" },
+  insertion: { en: "Angles of ribs and transverse processes of cervical vertebrae", new: "갈비뼈각, 목척추 가로돌기", old: "늑골각, 경추 횡돌기" },
+  action: { en: "Bilateral: extends vertebral column; Unilateral: ipsilateral lateral flexion", new: "양쪽: 척주 폄 / 한쪽: 같은쪽 가쪽굽힘", old: "양측: 척주 신전 / 일측: 동측 측굴" }
+},
+{
+  en: "Erector Spinae — Longissimus",
+  koNew: "척주세움근 — 가장긴근",
+  koOld: "척주기립근 — 최장근",
+  region: "Back",
+  origin: { en: "Common origin from sacrum, transverse processes of vertebrae", new: "엉치뼈, 척추 가로돌기", old: "천골, 척추 횡돌기" },
+  insertion: { en: "Transverse processes of thoracic & cervical vertebrae, mastoid process (capitis)", new: "등·목 척추 가로돌기, 꼭지돌기(머리갈래)", old: "흉추·경추 횡돌기, 유양돌기(두부)" },
+  action: { en: "Bilateral: extends vertebral column and head; Unilateral: ipsilateral lateral flexion", new: "양쪽: 척주·머리 폄 / 한쪽: 같은쪽 가쪽굽힘", old: "양측: 척주·두부 신전 / 일측: 동측 측굴" }
+},
+{
+  en: "Erector Spinae — Spinalis",
+  koNew: "척주세움근 — 가시근",
+  koOld: "척주기립근 — 극근",
+  region: "Back",
+  origin: { en: "Spinous processes of lower thoracic and upper lumbar vertebrae", new: "아래등뼈·위허리뼈 가시돌기", old: "하부 흉추·상부 요추 극돌기" },
+  insertion: { en: "Spinous processes of upper thoracic and cervical vertebrae", new: "위등뼈·목뼈 가시돌기", old: "상부 흉추·경추 극돌기" },
+  action: { en: "Extends vertebral column", new: "척주 폄", old: "척주 신전" }
+},
+{
+  en: "Semispinalis Capitis",
+  koNew: "머리반가시근",
+  koOld: "두반극근",
+  region: "Back",
+  origin: { en: "Transverse processes of C7–T6", new: "C7–T6 가로돌기", old: "C7–T6 횡돌기" },
+  insertion: { en: "Between superior and inferior nuchal lines of occipital bone", new: "뒤통수뼈 위·아래 목덜미선 사이", old: "후두골 상·하 항선 사이" },
+  action: { en: "Extends head and neck; contralateral rotation", new: "머리·목 폄, 반대쪽 돌림", old: "두부·경부 신전, 반대측 회전" }
+},
+{
+  en: "Semispinalis Cervicis",
+  koNew: "목반가시근",
+  koOld: "경반극근",
+  region: "Back",
+  origin: { en: "Transverse processes of T1–T6", new: "T1–T6 가로돌기", old: "T1–T6 횡돌기" },
+  insertion: { en: "Spinous processes of C2–C5", new: "C2–C5 가시돌기", old: "C2–C5 극돌기" },
+  action: { en: "Extends cervical spine; contralateral rotation", new: "목척추 폄, 반대쪽 돌림", old: "경추 신전, 반대측 회전" }
+},
+{
+  en: "Semispinalis Thoracis",
+  koNew: "등반가시근",
+  koOld: "흉반극근",
+  region: "Back",
+  origin: { en: "Transverse processes of T6–T10", new: "T6–T10 가로돌기", old: "T6–T10 횡돌기" },
+  insertion: { en: "Spinous processes of C6–T4", new: "C6–T4 가시돌기", old: "C6–T4 극돌기" },
+  action: { en: "Extends thoracic spine; contralateral rotation", new: "등척추 폄, 반대쪽 돌림", old: "흉추 신전, 반대측 회전" }
+},
+{
+  en: "Multifidus",
+  koNew: "뭇갈래근",
+  koOld: "다열근",
+  region: "Back",
+  origin: { en: "Sacrum, posterior superior iliac spine, transverse processes of all vertebrae", new: "엉치뼈, 위뒤엉덩뼈가시, 모든 척추뼈 가로돌기", old: "천골, 후상장골극, 전 척추 횡돌기" },
+  insertion: { en: "Spinous processes 2–4 segments above origin", new: "기시 위 2–4 분절 가시돌기", old: "기시 상부 2–4 분절 극돌기" },
+  action: { en: "Stabilizes vertebrae, extension, contralateral rotation, lateral flexion", new: "척추 안정화, 폄·반대쪽 돌림·가쪽굽힘", old: "척추 안정, 신전·반대측 회전·측굴" }
+},
+{
+  en: "Rotatores",
+  koNew: "돌림근",
+  koOld: "회선근",
+  region: "Back",
+  origin: { en: "Transverse processes of vertebrae", new: "척추뼈 가로돌기", old: "척추 횡돌기" },
+  insertion: { en: "Lamina/spinous process of vertebra above (1 brevis) or 2 above (longus)", new: "한 위(짧은) 또는 두 위(긴) 척추뼈의 척추뼈고리판/가시돌기", old: "1단 위(단) 또는 2단 위(장) 척추 추궁판/극돌기" },
+  action: { en: "Stabilizes vertebrae, contralateral rotation", new: "척추 안정, 반대쪽 돌림", old: "척추 안정, 반대측 회전" }
+},
+{
+  en: "Quadratus Lumborum",
+  koNew: "허리네모근",
+  koOld: "요방형근",
+  region: "Trunk",
+  origin: { en: "Iliac crest and iliolumbar ligament", new: "엉덩뼈능선, 엉덩허리인대", old: "장골릉, 장요인대" },
+  insertion: { en: "12th rib and transverse processes of L1–L4", new: "12번 갈비뼈, L1–L4 가로돌기", old: "제12 늑골, L1–L4 횡돌기" },
+  action: { en: "Lateral flexion of trunk, hip hiking; depresses 12th rib (forced expiration); stabilizes lumbar spine", new: "몸통 가쪽굽힘, 골반 끌어올림, 12번 갈비뼈 내림(강제 날숨), 허리척추 안정화", old: "체간 측굴, 골반 거상, 제12 늑골 하강(노력성 호기), 요추 안정" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 5. 호흡근 (RESPIRATION)                                  ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Diaphragm",
+  koNew: "가로막",
+  koOld: "횡격막",
+  region: "Trunk",
+  origin: { en: "Sternal: xiphoid process; Costal: inner surfaces of lower 6 ribs/costal cartilages; Lumbar: L1–L3 (right crus), L1–L2 (left crus), arcuate ligaments", new: "복장부: 칼돌기 / 갈비부: 아래 6갈비뼈·갈비연골 안쪽면 / 허리부: L1–L3(오른갈래)·L1–L2(왼갈래), 활꼴인대", old: "흉골부: 검상돌기 / 늑골부: 하위 6늑골·늑연골 내면 / 요부: L1–L3(우각)·L1–L2(좌각), 궁상인대" },
+  insertion: { en: "Central tendon", new: "중심널힘줄", old: "중심건" },
+  action: { en: "Primary muscle of inspiration (descends to expand thoracic cavity)", new: "들숨의 주작용근 (가슴안 확장)", old: "흡기의 주동근 (흉강 확장)" }
+},
+{
+  en: "External Intercostals",
+  koNew: "바깥갈비사이근",
+  koOld: "외늑간근",
+  region: "Trunk",
+  origin: { en: "Lower border of ribs 1–11", new: "1–11번 갈비뼈 아래모서리", old: "제1–11 늑골 하연" },
+  insertion: { en: "Upper border of rib below (fibers run inferomedially)", new: "다음 아래 갈비뼈 위모서리 (섬유: 안아래로)", old: "직하방 늑골 상연 (섬유: 내하방)" },
+  action: { en: "Elevates ribs (inspiration)", new: "갈비뼈 올림 (들숨)", old: "늑골 거상 (흡기)" }
+},
+{
+  en: "Internal Intercostals",
+  koNew: "속갈비사이근",
+  koOld: "내늑간근",
+  region: "Trunk",
+  origin: { en: "Lower border of ribs 1–11 (deep to externals)", new: "1–11번 갈비뼈 아래모서리 (바깥근 깊은쪽)", old: "제1–11 늑골 하연 (외근 심부)" },
+  insertion: { en: "Upper border of rib below (fibers run inferolaterally)", new: "다음 아래 갈비뼈 위모서리 (섬유: 가쪽아래로)", old: "직하방 늑골 상연 (섬유: 외하방)" },
+  action: { en: "Depresses ribs (forced expiration)", new: "갈비뼈 내림 (강제 날숨)", old: "늑골 하강 (노력성 호기)" }
+},
+{
+  en: "Innermost Intercostals",
+  koNew: "맨속갈비사이근",
+  koOld: "최내늑간근",
+  region: "Trunk",
+  origin: { en: "Inner surface of ribs (deep to internals, separated by neurovascular bundle)", new: "갈비뼈 안쪽면 (속근 깊은쪽, 신경혈관다발로 분리)", old: "늑골 내면 (내근 심부, 신경혈관속으로 분리)" },
+  insertion: { en: "Inner surface of rib below", new: "다음 아래 갈비뼈 안쪽면", old: "직하방 늑골 내면" },
+  action: { en: "Assists internal intercostals (expiration)", new: "속갈비사이근 보조 (날숨)", old: "내늑간근 보조 (호기)" }
+},
+{
+  en: "Subcostales",
+  koNew: "갈비밑근",
+  koOld: "늑하근",
+  region: "Trunk",
+  origin: { en: "Inner surface of lower ribs near angles", new: "아래 갈비뼈 안쪽면 갈비뼈각 부근", old: "하위 늑골 내면 늑골각 부근" },
+  insertion: { en: "Inner surface of rib 2–3 ribs below", new: "2–3 갈비뼈 아래의 안쪽면", old: "2–3 늑골 하방 내면" },
+  action: { en: "Depresses ribs (expiration)", new: "갈비뼈 내림 (날숨)", old: "늑골 하강 (호기)" }
+},
+{
+  en: "Transversus Thoracis",
+  koNew: "가슴가로근",
+  koOld: "흉횡근",
+  region: "Trunk",
+  origin: { en: "Posterior surface of lower sternum and xiphoid process", new: "복장뼈 아래쪽·칼돌기 뒷면", old: "하부 흉골·검상돌기 후면" },
+  insertion: { en: "Costal cartilages of ribs 2–6", new: "2–6번 갈비연골", old: "제2–6 늑연골" },
+  action: { en: "Depresses ribs (expiration)", new: "갈비뼈 내림 (날숨)", old: "늑골 하강 (호기)" }
+},
+{
+  en: "Levatores Costarum",
+  koNew: "갈비올림근",
+  koOld: "늑골거근",
+  region: "Trunk",
+  origin: { en: "Transverse processes of C7–T11", new: "C7–T11 가로돌기", old: "C7–T11 횡돌기" },
+  insertion: { en: "Outer surface of rib below origin", new: "기시 아래 갈비뼈 바깥면", old: "기시 직하방 늑골 외면" },
+  action: { en: "Elevates ribs (inspiration), assists trunk extension", new: "갈비뼈 올림 (들숨), 몸통 폄 보조", old: "늑골 거상 (흡기), 체간 신전 보조" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 6. 복부 (ABDOMEN)                                        ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Rectus Abdominis",
+  koNew: "배곧은근",
+  koOld: "복직근",
+  region: "Trunk",
+  origin: { en: "Pubic crest and pubic symphysis", new: "두덩뼈능선, 두덩결합", old: "치골릉, 치골결합" },
+  insertion: { en: "Xiphoid process and costal cartilages of ribs 5–7", new: "칼돌기, 5–7번 갈비연골", old: "검상돌기, 5–7번 늑연골" },
+  action: { en: "Trunk flexion, posterior pelvic tilt, compresses abdomen, forced expiration", new: "몸통 굽힘, 골반 뒤기울임, 배안 압박, 강제 날숨", old: "체간 굴곡, 골반 후방경사, 복강 압박, 노력성 호기" }
+},
+{
+  en: "External Oblique",
+  koNew: "배바깥빗근",
+  koOld: "외복사근",
+  region: "Trunk",
+  origin: { en: "External surfaces of ribs 5–12", new: "5–12번 갈비뼈 바깥면", old: "5–12번 늑골 외면" },
+  insertion: { en: "Linea alba, pubic tubercle, anterior 1/2 of iliac crest", new: "백색선, 두덩결절, 엉덩뼈능선 앞 1/2", old: "백선, 치골결절, 장골릉 전부 1/2" },
+  action: { en: "Bilateral: trunk flexion; Unilateral: contralateral rotation, ipsilateral lateral flexion", new: "양쪽: 몸통 굽힘 / 한쪽: 반대쪽 돌림, 같은쪽 가쪽굽힘", old: "양측: 체간 굴곡 / 일측: 반대측 회전, 동측 측굴" }
+},
+{
+  en: "Internal Oblique",
+  koNew: "배속빗근",
+  koOld: "내복사근",
+  region: "Trunk",
+  origin: { en: "Inguinal ligament, anterior iliac crest, thoracolumbar fascia", new: "샅고랑인대, 엉덩뼈능선 앞쪽, 등허리근막", old: "서혜인대, 장골릉 전부, 흉요근막" },
+  insertion: { en: "Linea alba, lower 3–4 ribs, pubic crest via conjoint tendon", new: "백색선, 아래 3–4 갈비뼈, 합동힘줄을 거쳐 두덩능선", old: "백선, 하위 3–4 늑골, 합동건 통해 치골릉" },
+  action: { en: "Bilateral: trunk flexion; Unilateral: ipsilateral rotation, ipsilateral lateral flexion", new: "양쪽: 몸통 굽힘 / 한쪽: 같은쪽 돌림, 같은쪽 가쪽굽힘", old: "양측: 체간 굴곡 / 일측: 동측 회전, 동측 측굴" }
+},
+{
+  en: "Transversus Abdominis (TrA)",
+  koNew: "배가로근",
+  koOld: "복횡근",
+  region: "Trunk",
+  origin: { en: "Inguinal ligament, anterior iliac crest, thoracolumbar fascia, costal cartilages 7–12", new: "샅고랑인대, 엉덩뼈능선 앞, 등허리근막, 7–12번 갈비연골", old: "서혜인대, 장골릉 전부, 흉요근막, 7–12번 늑연골" },
+  insertion: { en: "Linea alba, pubic crest via conjoint tendon", new: "백색선, 합동힘줄을 거쳐 두덩능선", old: "백선, 합동건 통해 치골릉" },
+  action: { en: "Compresses abdominal contents (forced expiration), stabilizes lumbar spine", new: "배속 압박 (강제 날숨), 허리척추 안정화", old: "복강 압박 (노력성 호기), 요추 안정화" }
+},
+{
+  en: "Pyramidalis",
+  koNew: "배세모근",
+  koOld: "추체근",
+  region: "Trunk",
+  origin: { en: "Pubic crest and anterior pubic ligament", new: "두덩능선, 앞두덩인대", old: "치골릉, 전치골인대" },
+  insertion: { en: "Linea alba (below umbilicus)", new: "백색선 (배꼽 아래)", old: "백선 (제하부)" },
+  action: { en: "Tenses linea alba", new: "백색선 긴장", old: "백선 긴장" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 7. 골반저근 (PELVIC FLOOR)                               ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Levator Ani — Pubococcygeus",
+  koNew: "항문올림근 — 두덩꼬리근",
+  koOld: "항문거근 — 치미근",
+  region: "Pelvic Floor",
+  origin: { en: "Posterior surface of body of pubis", new: "두덩뼈몸통 뒷면", old: "치골체 후면" },
+  insertion: { en: "Coccyx, anococcygeal ligament, perineal body", new: "꼬리뼈, 항문꼬리인대, 회음힘줄중심", old: "미골, 항미인대, 회음건중심" },
+  action: { en: "Supports pelvic viscera, elevates pelvic floor, maintains continence", new: "골반장기 지지, 골반바닥 올림, 변실금 방지", old: "골반장기 지지, 골반저 거상, 변실금 유지" }
+},
+{
+  en: "Levator Ani — Puborectalis",
+  koNew: "항문올림근 — 두덩곧창자근",
+  koOld: "항문거근 — 치직장근",
+  region: "Pelvic Floor",
+  origin: { en: "Posterior surface of body of pubis", new: "두덩뼈몸통 뒷면", old: "치골체 후면" },
+  insertion: { en: "Forms U-shaped sling around anorectal junction (joins contralateral fibers)", new: "항문곧창자이음부를 U자로 둘러쌈 (반대쪽 섬유와 연결)", old: "항문직장이행부를 U자형으로 둘러쌈 (반대측 섬유와 연결)" },
+  action: { en: "Maintains anorectal angle (fecal continence)", new: "항문곧창자각 유지 (변실금 방지)", old: "항문직장각 유지 (변실금 유지)" }
+},
+{
+  en: "Levator Ani — Iliococcygeus",
+  koNew: "항문올림근 — 엉덩꼬리근",
+  koOld: "항문거근 — 장미근",
+  region: "Pelvic Floor",
+  origin: { en: "Tendinous arch of obturator fascia, ischial spine", new: "폐쇄근막의 힘줄활, 궁둥뼈가시", old: "폐쇄근막의 건궁, 좌골극" },
+  insertion: { en: "Coccyx, anococcygeal ligament", new: "꼬리뼈, 항문꼬리인대", old: "미골, 항미인대" },
+  action: { en: "Supports pelvic viscera, elevates pelvic floor", new: "골반장기 지지, 골반바닥 올림", old: "골반장기 지지, 골반저 거상" }
+},
+{
+  en: "Coccygeus (Ischiococcygeus)",
+  koNew: "꼬리근 (궁둥꼬리근)",
+  koOld: "미골근 (좌골미골근)",
+  region: "Pelvic Floor",
+  origin: { en: "Ischial spine and sacrospinous ligament", new: "궁둥뼈가시, 엉치가시인대", old: "좌골극, 천극인대" },
+  insertion: { en: "Lateral surface of lower sacrum and coccyx", new: "아래 엉치뼈·꼬리뼈 가쪽면", old: "하부 천골·미골 외측면" },
+  action: { en: "Supports pelvic viscera, flexes coccyx", new: "골반장기 지지, 꼬리뼈 굽힘", old: "골반장기 지지, 미골 굴곡" }
+},
+{
+  en: "Bulbospongiosus",
+  koNew: "망울해면체근",
+  koOld: "구해면체근",
+  region: "Pelvic Floor",
+  origin: { en: "Perineal body, median raphe", new: "회음힘줄중심, 정중솔기", old: "회음건중심, 정중봉선" },
+  insertion: { en: "Male: corpora cavernosa & spongiosum of penis; Female: clitoris and pubic arch", new: "남: 음경해면체·요도해면체 / 여: 음핵·두덩활", old: "남: 음경해면체·요도해면체 / 여: 음핵·치골궁" },
+  action: { en: "Compresses urethra/vagina; assists erection", new: "요도/질 압박, 발기 보조", old: "요도/질 압박, 발기 보조" }
+},
+{
+  en: "Ischiocavernosus",
+  koNew: "궁둥해면체근",
+  koOld: "좌골해면체근",
+  region: "Pelvic Floor",
+  origin: { en: "Ischial tuberosity and ramus", new: "궁둥뼈결절·궁둥뼈가지", old: "좌골결절·좌골지" },
+  insertion: { en: "Crus of penis or clitoris", new: "음경다리 또는 음핵다리", old: "음경각 또는 음핵각" },
+  action: { en: "Maintains erection by compressing venous outflow", new: "정맥환류 압박으로 발기 유지", old: "정맥환류 압박으로 발기 유지" }
+},
+{
+  en: "Superficial Transverse Perineal",
+  koNew: "얕은샅가로근",
+  koOld: "천회음횡근",
+  region: "Pelvic Floor",
+  origin: { en: "Ischial tuberosity", new: "궁둥뼈결절", old: "좌골결절" },
+  insertion: { en: "Perineal body", new: "회음힘줄중심", old: "회음건중심" },
+  action: { en: "Stabilizes perineal body", new: "회음힘줄중심 안정화", old: "회음건중심 안정화" }
+},
+{
+  en: "Deep Transverse Perineal",
+  koNew: "깊은샅가로근",
+  koOld: "심회음횡근",
+  region: "Pelvic Floor",
+  origin: { en: "Inner surface of ischial ramus", new: "궁둥뼈가지 안쪽면", old: "좌골지 내측면" },
+  insertion: { en: "Perineal body, median raphe", new: "회음힘줄중심, 정중솔기", old: "회음건중심, 정중봉선" },
+  action: { en: "Supports pelvic viscera, stabilizes perineal body", new: "골반장기 지지, 회음힘줄중심 안정화", old: "골반장기 지지, 회음건중심 안정" }
+},
+{
+  en: "External Anal Sphincter",
+  koNew: "바깥항문조임근",
+  koOld: "외항문괄약근",
+  region: "Pelvic Floor",
+  origin: { en: "Anococcygeal ligament, coccyx", new: "항문꼬리인대, 꼬리뼈", old: "항미인대, 미골" },
+  insertion: { en: "Perineal body", new: "회음힘줄중심", old: "회음건중심" },
+  action: { en: "Voluntary closure of anus", new: "항문 수의적 닫음", old: "항문 수의적 폐쇄" }
+},
+{
+  en: "External Urethral Sphincter",
+  koNew: "바깥요도조임근",
+  koOld: "외요도괄약근",
+  region: "Pelvic Floor",
+  origin: { en: "Surrounds membranous urethra", new: "막요도 둘레", old: "막요도 주위" },
+  insertion: { en: "Encircles urethra", new: "요도를 둘러쌈", old: "요도를 환상으로 둘러쌈" },
+  action: { en: "Voluntary closure of urethra (urinary continence)", new: "요도 수의적 닫음 (요실금 방지)", old: "요도 수의적 폐쇄 (요실금 유지)" }
+},
+// Part 3: 어깨, 위팔, 아래팔
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 8. 어깨 / 흉부 (SHOULDER GIRDLE)                         ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Pectoralis Major — Clavicular Head",
+  koNew: "큰가슴근 — 빗장갈래",
+  koOld: "대흉근 — 쇄골부",
+  region: "Shoulder",
+  origin: { en: "Anterior surface of medial 1/2 of clavicle", new: "빗장뼈 안쪽 1/2 앞면", old: "쇄골 내측 1/2 전면" },
+  insertion: { en: "Crest of greater tubercle of humerus (lateral lip of bicipital groove)", new: "위팔뼈 큰결절능선", old: "상완골 대결절능 (결절간구 외측순)" },
+  action: { en: "Shoulder flexion, adduction, medial rotation, horizontal adduction", new: "어깨관절 굽힘·모음·안쪽돌림·수평모음", old: "견관절 굴곡·내전·내회전·수평내전" }
+},
+{
+  en: "Pectoralis Major — Sternocostal Head",
+  koNew: "큰가슴근 — 복장갈비갈래",
+  koOld: "대흉근 — 흉늑부",
+  region: "Shoulder",
+  origin: { en: "Anterior surface of sternum, costal cartilages of ribs 1–6, aponeurosis of external oblique", new: "복장뼈 앞면, 1–6번 갈비연골, 배바깥빗근 널힘줄", old: "흉골 전면, 1–6번 늑연골, 외복사근 건막" },
+  insertion: { en: "Crest of greater tubercle of humerus", new: "위팔뼈 큰결절능선", old: "상완골 대결절능" },
+  action: { en: "Shoulder extension (from flexed position), adduction, medial rotation", new: "어깨관절 폄(굽힌 자세에서), 모음, 안쪽돌림", old: "견관절 신전(굴곡위에서), 내전, 내회전" }
+},
+{
+  en: "Pectoralis Minor",
+  koNew: "작은가슴근",
+  koOld: "소흉근",
+  region: "Shoulder",
+  origin: { en: "Anterior surface of ribs 3–5", new: "3–5번 갈비뼈 앞면", old: "3–5번 늑골 전면" },
+  insertion: { en: "Coracoid process of scapula", new: "어깨뼈 부리돌기", old: "견갑골 오훼돌기" },
+  action: { en: "Scapular protraction, depression, downward rotation", new: "어깨뼈 내밈·내림·아래돌림", old: "견갑골 전인·하강·하방회전" }
+},
+{
+  en: "Subclavius",
+  koNew: "빗장밑근",
+  koOld: "쇄골하근",
+  region: "Shoulder",
+  origin: { en: "First rib at costochondral junction", new: "1번 갈비뼈와 갈비연골 경계", old: "제1늑골 늑연골 접합부" },
+  insertion: { en: "Inferior surface of middle 1/3 of clavicle", new: "빗장뼈 중간 1/3 아래면", old: "쇄골 중간 1/3 하면" },
+  action: { en: "Depresses and stabilizes clavicle", new: "빗장뼈 내림·안정화", old: "쇄골 하강·안정" }
+},
+{
+  en: "Serratus Anterior",
+  koNew: "앞톱니근",
+  koOld: "전거근",
+  region: "Shoulder",
+  origin: { en: "Outer surface of ribs 1–9", new: "1–9번 갈비뼈 바깥면", old: "1–9번 늑골 외측면" },
+  insertion: { en: "Costal (anterior) surface of medial border of scapula", new: "어깨뼈 안쪽모서리 갈비면(앞면)", old: "견갑골 내측연 늑골면(전면)" },
+  action: { en: "Scapular protraction and upward rotation; stabilizes scapula against thorax", new: "어깨뼈 내밈·위돌림, 가슴우리에 어깨뼈 고정", old: "견갑골 전인·상방회전, 흉곽에 견갑골 고정" }
+},
+{
+  en: "Deltoid — Anterior Fibers",
+  koNew: "어깨세모근 — 앞섬유",
+  koOld: "삼각근 — 전부섬유",
+  region: "Shoulder",
+  origin: { en: "Anterior border, superior surface of lateral 1/3 of clavicle", new: "빗장뼈 가쪽 1/3 앞모서리·위면", old: "쇄골 외측 1/3 전연·상면" },
+  insertion: { en: "Deltoid tuberosity of humerus", new: "위팔뼈 세모근거친면", old: "상완골 삼각근조면" },
+  action: { en: "Shoulder flexion, medial rotation, horizontal adduction", new: "어깨관절 굽힘·안쪽돌림·수평모음", old: "견관절 굴곡·내회전·수평내전" }
+},
+{
+  en: "Deltoid — Middle (Lateral) Fibers",
+  koNew: "어깨세모근 — 중간(가쪽)섬유",
+  koOld: "삼각근 — 중부(외측)섬유",
+  region: "Shoulder",
+  origin: { en: "Lateral border of acromion", new: "봉우리 가쪽모서리", old: "견봉 외측연" },
+  insertion: { en: "Deltoid tuberosity of humerus", new: "위팔뼈 세모근거친면", old: "상완골 삼각근조면" },
+  action: { en: "Shoulder abduction (15°–90°)", new: "어깨관절 벌림 (15°~90°)", old: "견관절 외전 (15°~90°)" }
+},
+{
+  en: "Deltoid — Posterior Fibers",
+  koNew: "어깨세모근 — 뒤섬유",
+  koOld: "삼각근 — 후부섬유",
+  region: "Shoulder",
+  origin: { en: "Crest of spine of scapula", new: "어깨뼈가시 능선", old: "견갑극 능선" },
+  insertion: { en: "Deltoid tuberosity of humerus", new: "위팔뼈 세모근거친면", old: "상완골 삼각근조면" },
+  action: { en: "Shoulder extension, lateral rotation, horizontal abduction", new: "어깨관절 폄·가쪽돌림·수평벌림", old: "견관절 신전·외회전·수평외전" }
+},
+{
+  en: "Supraspinatus",
+  koNew: "가시위근",
+  koOld: "극상근",
+  region: "Shoulder",
+  origin: { en: "Supraspinous fossa of scapula", new: "어깨뼈 가시위오목", old: "견갑골 극상와" },
+  insertion: { en: "Superior facet of greater tubercle of humerus", new: "위팔뼈 큰결절 위면", old: "상완골 대결절 상면" },
+  action: { en: "Initiates shoulder abduction (first 15°), stabilizes humeral head", new: "어깨관절 벌림 시작 (초기 15°), 위팔뼈머리 안정화", old: "견관절 외전 개시 (초기 15°), 상완골두 안정화" }
+},
+{
+  en: "Infraspinatus",
+  koNew: "가시아래근",
+  koOld: "극하근",
+  region: "Shoulder",
+  origin: { en: "Infraspinous fossa of scapula", new: "어깨뼈 가시아래오목", old: "견갑골 극하와" },
+  insertion: { en: "Middle facet of greater tubercle of humerus", new: "위팔뼈 큰결절 중간면", old: "상완골 대결절 중면" },
+  action: { en: "Shoulder lateral rotation; stabilizes humeral head", new: "어깨관절 가쪽돌림, 위팔뼈머리 안정화", old: "견관절 외회전, 상완골두 안정화" }
+},
+{
+  en: "Teres Minor",
+  koNew: "작은원근",
+  koOld: "소원근",
+  region: "Shoulder",
+  origin: { en: "Upper 2/3 of lateral border of scapula", new: "어깨뼈 가쪽모서리 위 2/3", old: "견갑골 외측연 상부 2/3" },
+  insertion: { en: "Inferior facet of greater tubercle of humerus", new: "위팔뼈 큰결절 아래면", old: "상완골 대결절 하면" },
+  action: { en: "Shoulder lateral rotation, weak adduction", new: "어깨관절 가쪽돌림, 약한 모음", old: "견관절 외회전, 약한 내전" }
+},
+{
+  en: "Subscapularis",
+  koNew: "어깨밑근",
+  koOld: "견갑하근",
+  region: "Shoulder",
+  origin: { en: "Subscapular fossa (anterior surface of scapula)", new: "어깨뼈밑오목 (어깨뼈 앞면)", old: "견갑하와 (견갑골 전면)" },
+  insertion: { en: "Lesser tubercle of humerus", new: "위팔뼈 작은결절", old: "상완골 소결절" },
+  action: { en: "Shoulder medial rotation; stabilizes humeral head", new: "어깨관절 안쪽돌림, 위팔뼈머리 안정화", old: "견관절 내회전, 상완골두 안정화" }
+},
+{
+  en: "Teres Major",
+  koNew: "큰원근",
+  koOld: "대원근",
+  region: "Shoulder",
+  origin: { en: "Posterior surface of inferior angle of scapula", new: "어깨뼈 아래각 뒷면", old: "견갑골 하각 후면" },
+  insertion: { en: "Crest of lesser tubercle of humerus (medial lip of bicipital groove)", new: "위팔뼈 작은결절능선", old: "상완골 소결절능 (결절간구 내측순)" },
+  action: { en: "Shoulder extension, adduction, medial rotation", new: "어깨관절 폄·모음·안쪽돌림", old: "견관절 신전·내전·내회전" }
+},
+{
+  en: "Coracobrachialis",
+  koNew: "부리위팔근",
+  koOld: "오훼완근",
+  region: "Shoulder",
+  origin: { en: "Coracoid process of scapula", new: "어깨뼈 부리돌기", old: "견갑골 오훼돌기" },
+  insertion: { en: "Middle 1/3 of medial surface of humerus", new: "위팔뼈 안쪽면 중간 1/3", old: "상완골 내측면 중간 1/3" },
+  action: { en: "Shoulder flexion and adduction", new: "어깨관절 굽힘·모음", old: "견관절 굴곡·내전" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 9. 위팔 (ARM)                                            ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Biceps Brachii — Long Head",
+  koNew: "위팔두갈래근 — 긴갈래",
+  koOld: "상완이두근 — 장두",
+  region: "Arm",
+  origin: { en: "Supraglenoid tubercle of scapula", new: "어깨뼈 오목위결절", old: "견갑골 관절상결절" },
+  insertion: { en: "Radial tuberosity, bicipital aponeurosis (lacertus fibrosus)", new: "노뼈거친면, 두갈래근널힘줄", old: "요골조면, 이두근건막" },
+  action: { en: "Elbow flexion (strongest with forearm supinated), forearm supination, weak shoulder flexion", new: "팔꿈치관절 굽힘(아래팔 뒤침 시 강함), 아래팔 뒤침, 어깨관절 약한 굽힘", old: "주관절 굴곡(전완 회외시 강력), 전완 회외, 견관절 약한 굴곡" }
+},
+{
+  en: "Biceps Brachii — Short Head",
+  koNew: "위팔두갈래근 — 짧은갈래",
+  koOld: "상완이두근 — 단두",
+  region: "Arm",
+  origin: { en: "Coracoid process of scapula", new: "어깨뼈 부리돌기", old: "견갑골 오훼돌기" },
+  insertion: { en: "Radial tuberosity, bicipital aponeurosis", new: "노뼈거친면, 두갈래근널힘줄", old: "요골조면, 이두근건막" },
+  action: { en: "Elbow flexion, forearm supination, weak shoulder flexion and adduction", new: "팔꿈치관절 굽힘, 아래팔 뒤침, 어깨관절 약한 굽힘·모음", old: "주관절 굴곡, 전완 회외, 견관절 약한 굴곡·내전" }
+},
+{
+  en: "Brachialis",
+  koNew: "위팔근",
+  koOld: "상완근",
+  region: "Arm",
+  origin: { en: "Distal half of anterior surface of humerus", new: "위팔뼈 먼쪽 절반 앞면", old: "상완골 원위 1/2 전면" },
+  insertion: { en: "Coronoid process and tuberosity of ulna", new: "자뼈 갈고리돌기·자뼈거친면", old: "척골 구상돌기·척골조면" },
+  action: { en: "Elbow flexion (primary mover, regardless of forearm position)", new: "팔꿈치관절 굽힘 (주작용근, 아래팔 자세 무관)", old: "주관절 굴곡 (주동근, 전완 자세 무관)" }
+},
+{
+  en: "Triceps Brachii — Long Head",
+  koNew: "위팔세갈래근 — 긴갈래",
+  koOld: "상완삼두근 — 장두",
+  region: "Arm",
+  origin: { en: "Infraglenoid tubercle of scapula", new: "어깨뼈 오목아래결절", old: "견갑골 관절하결절" },
+  insertion: { en: "Olecranon of ulna", new: "자뼈 팔꿈치머리", old: "척골 주두" },
+  action: { en: "Elbow extension, shoulder extension and adduction", new: "팔꿈치관절 폄, 어깨관절 폄·모음", old: "주관절 신전, 견관절 신전·내전" }
+},
+{
+  en: "Triceps Brachii — Lateral Head",
+  koNew: "위팔세갈래근 — 가쪽갈래",
+  koOld: "상완삼두근 — 외측두",
+  region: "Arm",
+  origin: { en: "Posterior surface of humerus above radial groove", new: "위팔뼈 노신경고랑 위쪽 뒷면", old: "상완골 요골신경구 상방 후면" },
+  insertion: { en: "Olecranon of ulna", new: "자뼈 팔꿈치머리", old: "척골 주두" },
+  action: { en: "Elbow extension", new: "팔꿈치관절 폄", old: "주관절 신전" }
+},
+{
+  en: "Triceps Brachii — Medial Head",
+  koNew: "위팔세갈래근 — 안쪽갈래",
+  koOld: "상완삼두근 — 내측두",
+  region: "Arm",
+  origin: { en: "Posterior surface of humerus below radial groove", new: "위팔뼈 노신경고랑 아래쪽 뒷면", old: "상완골 요골신경구 하방 후면" },
+  insertion: { en: "Olecranon of ulna", new: "자뼈 팔꿈치머리", old: "척골 주두" },
+  action: { en: "Elbow extension (primary in slow/fine movements)", new: "팔꿈치관절 폄 (느린·정밀 운동의 주력)", old: "주관절 신전 (완서·정밀 운동의 주동)" }
+},
+{
+  en: "Anconeus",
+  koNew: "팔꿈치근",
+  koOld: "주근",
+  region: "Arm",
+  origin: { en: "Posterior surface of lateral epicondyle of humerus", new: "위팔뼈 가쪽관절융기 뒷면", old: "상완골 외측상과 후면" },
+  insertion: { en: "Lateral surface of olecranon and posterior ulna", new: "팔꿈치머리 가쪽면, 자뼈 뒷면", old: "주두 외측면, 척골 후면" },
+  action: { en: "Assists elbow extension; stabilizes elbow joint during pronation", new: "팔꿈치 폄 보조, 엎침 시 팔꿈치관절 안정화", old: "주관절 신전 보조, 회내 시 주관절 안정" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 10. 아래팔 (FOREARM)                                     ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Brachioradialis",
+  koNew: "위팔노근",
+  koOld: "완요골근",
+  region: "Forearm",
+  origin: { en: "Lateral supracondylar ridge of humerus (proximal 2/3)", new: "위팔뼈 가쪽관절융기위능선 (몸쪽 2/3)", old: "상완골 외측상과릉 (근위 2/3)" },
+  insertion: { en: "Lateral surface of styloid process of radius", new: "노뼈 붓돌기 가쪽면", old: "요골 경상돌기 외측면" },
+  action: { en: "Elbow flexion (strongest in mid-pronation/neutral)", new: "팔꿈치관절 굽힘 (중립위에서 가장 강함)", old: "주관절 굴곡 (중간위에서 가장 강력)" }
+},
+{
+  en: "Pronator Teres",
+  koNew: "원엎침근",
+  koOld: "원회내근",
+  region: "Forearm",
+  origin: { en: "Humeral head: medial epicondyle of humerus (common flexor tendon); Ulnar head: coronoid process of ulna", new: "위팔갈래: 위팔뼈 안쪽관절융기 (공통굽힘근힘줄) / 자갈래: 자뼈 갈고리돌기", old: "상완두: 상완골 내측상과 (공통굴근건) / 척골두: 척골 구상돌기" },
+  insertion: { en: "Middle of lateral surface of radius (pronator tuberosity)", new: "노뼈 가쪽면 중간 (엎침근거친면)", old: "요골 외측면 중앙 (회내근조면)" },
+  action: { en: "Forearm pronation, weak elbow flexion", new: "아래팔 엎침, 팔꿈치관절 약한 굽힘", old: "전완 회내, 주관절 약한 굴곡" }
+},
+{
+  en: "Pronator Quadratus",
+  koNew: "네모엎침근",
+  koOld: "방형회내근",
+  region: "Forearm",
+  origin: { en: "Distal 1/4 of anterior ulna", new: "자뼈 앞면 먼쪽 1/4", old: "척골 전면 원위 1/4" },
+  insertion: { en: "Distal 1/4 of anterior radius", new: "노뼈 앞면 먼쪽 1/4", old: "요골 전면 원위 1/4" },
+  action: { en: "Forearm pronation (primary)", new: "아래팔 엎침 (주작용근)", old: "전완 회내 (주동근)" }
+},
+{
+  en: "Supinator",
+  koNew: "뒤침근",
+  koOld: "회외근",
+  region: "Forearm",
+  origin: { en: "Lateral epicondyle of humerus, radial collateral ligament, annular ligament, supinator crest of ulna", new: "위팔뼈 가쪽관절융기, 노쪽곁인대, 고리인대, 자뼈 뒤침근능선", old: "상완골 외측상과, 요측측부인대, 윤상인대, 척골 회외근릉" },
+  insertion: { en: "Anterior, lateral, and posterior surfaces of proximal 1/3 of radius", new: "노뼈 몸쪽 1/3의 앞·가쪽·뒷면", old: "요골 근위 1/3의 전·외측·후면" },
+  action: { en: "Forearm supination (especially with elbow extended)", new: "아래팔 뒤침 (특히 팔꿈치 편 자세에서)", old: "전완 회외 (주관절 신전위에서 강력)" }
+},
+{
+  en: "Flexor Carpi Radialis",
+  koNew: "노쪽손목굽힘근",
+  koOld: "요측수근굴근",
+  region: "Forearm",
+  origin: { en: "Medial epicondyle of humerus (common flexor tendon)", new: "위팔뼈 안쪽관절융기 (공통굽힘근힘줄)", old: "상완골 내측상과 (공통굴근건)" },
+  insertion: { en: "Bases of 2nd and 3rd metacarpals", new: "둘째·셋째 손허리뼈 바닥", old: "제2·3 중수골 기저부" },
+  action: { en: "Wrist flexion and radial deviation (abduction)", new: "손목 굽힘·노쪽치우침 (벌림)", old: "수관절 굴곡·요측편위 (외전)" }
+},
+{
+  en: "Palmaris Longus",
+  koNew: "긴손바닥근",
+  koOld: "장장근",
+  region: "Forearm",
+  origin: { en: "Medial epicondyle of humerus", new: "위팔뼈 안쪽관절융기", old: "상완골 내측상과" },
+  insertion: { en: "Flexor retinaculum and palmar aponeurosis", new: "굽힘근지지띠, 손바닥널힘줄", old: "굴근지대, 수장건막" },
+  action: { en: "Weak wrist flexion, tenses palmar aponeurosis", new: "약한 손목 굽힘, 손바닥널힘줄 긴장", old: "약한 수관절 굴곡, 수장건막 긴장" }
+},
+{
+  en: "Flexor Carpi Ulnaris",
+  koNew: "자쪽손목굽힘근",
+  koOld: "척측수근굴근",
+  region: "Forearm",
+  origin: { en: "Humeral head: medial epicondyle; Ulnar head: olecranon and posterior border of ulna", new: "위팔갈래: 안쪽관절융기 / 자갈래: 자뼈 팔꿈치머리·뒷모서리", old: "상완두: 내측상과 / 척골두: 척골 주두·후연" },
+  insertion: { en: "Pisiform, hook of hamate, base of 5th metacarpal", new: "콩알뼈, 갈고리뼈갈고리, 다섯째 손허리뼈 바닥", old: "두상골, 유구골 구, 제5 중수골 기저" },
+  action: { en: "Wrist flexion and ulnar deviation (adduction)", new: "손목 굽힘·자쪽치우침 (모음)", old: "수관절 굴곡·척측편위 (내전)" }
+},
+{
+  en: "Flexor Digitorum Superficialis (FDS)",
+  koNew: "얕은손가락굽힘근",
+  koOld: "천지굴근",
+  region: "Forearm",
+  origin: { en: "Humeroulnar head: medial epicondyle, ulnar collateral ligament, coronoid process; Radial head: anterior border of radius", new: "위팔자갈래: 안쪽관절융기·자쪽곁인대·갈고리돌기 / 노갈래: 노뼈 앞모서리", old: "상완척골두: 내측상과·척측측부인대·구상돌기 / 요골두: 요골 전연" },
+  insertion: { en: "Sides of middle phalanges of fingers 2–5", new: "둘째~다섯째 손가락 중간마디뼈 양쪽", old: "제2~5지 중절골 양측" },
+  action: { en: "Flexion of PIP joints of fingers 2–5; assists MCP & wrist flexion", new: "둘째~다섯째 손가락 PIP관절 굽힘, MCP·손목 굽힘 보조", old: "제2~5지 PIP관절 굴곡, MP·수관절 굴곡 보조" }
+},
+{
+  en: "Flexor Digitorum Profundus (FDP)",
+  koNew: "깊은손가락굽힘근",
+  koOld: "심지굴근",
+  region: "Forearm",
+  origin: { en: "Anterior and medial surfaces of proximal 3/4 of ulna, interosseous membrane", new: "자뼈 몸쪽 3/4 앞면·안쪽면, 뼈사이막", old: "척골 근위 3/4 전·내면, 골간막" },
+  insertion: { en: "Bases of distal phalanges of fingers 2–5", new: "둘째~다섯째 손가락 끝마디뼈 바닥", old: "제2~5지 원위지골 기저" },
+  action: { en: "Flexion of DIP joints (only flexor of DIP); assists PIP, MCP, wrist flexion", new: "DIP관절 굽힘 (DIP의 유일한 굽힘근), PIP·MCP·손목 굽힘 보조", old: "DIP 굴곡 (DIP의 유일한 굴근), PIP·MP·수관절 굴곡 보조" }
+},
+{
+  en: "Flexor Pollicis Longus (FPL)",
+  koNew: "긴엄지굽힘근",
+  koOld: "장무지굴근",
+  region: "Forearm",
+  origin: { en: "Anterior surface of radius (below radial tuberosity), interosseous membrane", new: "노뼈 앞면 (노뼈거친면 아래), 뼈사이막", old: "요골 전면 (요골조면 하방), 골간막" },
+  insertion: { en: "Base of distal phalanx of thumb", new: "엄지 끝마디뼈 바닥", old: "무지 원위지골 기저" },
+  action: { en: "Flexion of IP and MCP joints of thumb", new: "엄지 IP·MCP관절 굽힘", old: "무지 IP·MP관절 굴곡" }
+},
+{
+  en: "Extensor Carpi Radialis Longus (ECRL)",
+  koNew: "긴노쪽손목폄근",
+  koOld: "장요측수근신근",
+  region: "Forearm",
+  origin: { en: "Lateral supracondylar ridge of humerus", new: "위팔뼈 가쪽관절융기위능선", old: "상완골 외측상과릉" },
+  insertion: { en: "Base of 2nd metacarpal (dorsal)", new: "둘째 손허리뼈 바닥 (등쪽)", old: "제2 중수골 기저 (배측)" },
+  action: { en: "Wrist extension and radial deviation; weak elbow flexion", new: "손목 폄·노쪽치우침, 약한 팔꿈치 굽힘", old: "수관절 신전·요측편위, 약한 주관절 굴곡" }
+},
+{
+  en: "Extensor Carpi Radialis Brevis (ECRB)",
+  koNew: "짧은노쪽손목폄근",
+  koOld: "단요측수근신근",
+  region: "Forearm",
+  origin: { en: "Lateral epicondyle of humerus (common extensor tendon)", new: "위팔뼈 가쪽관절융기 (공통폄근힘줄)", old: "상완골 외측상과 (공통신근건)" },
+  insertion: { en: "Base of 3rd metacarpal (dorsal)", new: "셋째 손허리뼈 바닥 (등쪽)", old: "제3 중수골 기저 (배측)" },
+  action: { en: "Wrist extension and radial deviation", new: "손목 폄·노쪽치우침", old: "수관절 신전·요측편위" }
+},
+{
+  en: "Extensor Digitorum",
+  koNew: "손가락폄근",
+  koOld: "지신근",
+  region: "Forearm",
+  origin: { en: "Lateral epicondyle of humerus (common extensor tendon)", new: "위팔뼈 가쪽관절융기 (공통폄근힘줄)", old: "상완골 외측상과 (공통신근건)" },
+  insertion: { en: "Extensor expansions of fingers 2–5 (middle and distal phalanges)", new: "둘째~다섯째 손가락의 폄근널힘줄 (중간·끝마디뼈)", old: "제2~5지 신근건막 (중절·원위지골)" },
+  action: { en: "Extends fingers 2–5 at MCP, PIP, DIP joints; assists wrist extension", new: "둘째~다섯째 손가락 MCP·PIP·DIP관절 폄, 손목 폄 보조", old: "제2~5지 MP·PIP·DIP 신전, 수관절 신전 보조" }
+},
+{
+  en: "Extensor Digiti Minimi",
+  koNew: "새끼폄근",
+  koOld: "소지신근",
+  region: "Forearm",
+  origin: { en: "Lateral epicondyle of humerus (common extensor tendon)", new: "위팔뼈 가쪽관절융기 (공통폄근힘줄)", old: "상완골 외측상과 (공통신근건)" },
+  insertion: { en: "Extensor expansion of 5th finger", new: "다섯째 손가락 폄근널힘줄", old: "제5지 신근건막" },
+  action: { en: "Extends little finger", new: "새끼손가락 폄", old: "소지 신전" }
+},
+{
+  en: "Extensor Carpi Ulnaris (ECU)",
+  koNew: "자쪽손목폄근",
+  koOld: "척측수근신근",
+  region: "Forearm",
+  origin: { en: "Lateral epicondyle of humerus (common extensor tendon), posterior border of ulna", new: "위팔뼈 가쪽관절융기 (공통폄근힘줄), 자뼈 뒷모서리", old: "상완골 외측상과 (공통신근건), 척골 후연" },
+  insertion: { en: "Base of 5th metacarpal (dorsal)", new: "다섯째 손허리뼈 바닥 (등쪽)", old: "제5 중수골 기저 (배측)" },
+  action: { en: "Wrist extension and ulnar deviation", new: "손목 폄·자쪽치우침", old: "수관절 신전·척측편위" }
+},
+{
+  en: "Abductor Pollicis Longus (APL)",
+  koNew: "긴엄지벌림근",
+  koOld: "장무지외전근",
+  region: "Forearm",
+  origin: { en: "Posterior surfaces of ulna, radius, and interosseous membrane", new: "자뼈·노뼈 뒷면, 뼈사이막", old: "척골·요골 후면, 골간막" },
+  insertion: { en: "Base of 1st metacarpal", new: "첫째 손허리뼈 바닥", old: "제1 중수골 기저" },
+  action: { en: "Abduction and extension of thumb (CMC joint), assists wrist abduction", new: "엄지 벌림·폄 (CMC관절), 손목 벌림 보조", old: "무지 외전·신전 (CMC), 수관절 외전 보조" }
+},
+{
+  en: "Extensor Pollicis Brevis (EPB)",
+  koNew: "짧은엄지폄근",
+  koOld: "단무지신근",
+  region: "Forearm",
+  origin: { en: "Posterior surface of radius and interosseous membrane (distal to APL)", new: "노뼈 뒷면, 뼈사이막 (긴엄지벌림근 아래)", old: "요골 후면, 골간막 (장무지외전근 원위)" },
+  insertion: { en: "Base of proximal phalanx of thumb", new: "엄지 첫마디뼈 바닥", old: "무지 근위지골 기저" },
+  action: { en: "Extension of MCP joint of thumb", new: "엄지 MCP관절 폄", old: "무지 MP관절 신전" }
+},
+{
+  en: "Extensor Pollicis Longus (EPL)",
+  koNew: "긴엄지폄근",
+  koOld: "장무지신근",
+  region: "Forearm",
+  origin: { en: "Posterior surface of middle 1/3 of ulna and interosseous membrane", new: "자뼈 뒷면 중간 1/3, 뼈사이막", old: "척골 후면 중간 1/3, 골간막" },
+  insertion: { en: "Base of distal phalanx of thumb", new: "엄지 끝마디뼈 바닥", old: "무지 원위지골 기저" },
+  action: { en: "Extension of IP and MCP joints of thumb (uses Lister's tubercle as pulley)", new: "엄지 IP·MCP관절 폄 (리스터결절을 도르래로 사용)", old: "무지 IP·MP관절 신전 (Lister 결절을 활차로 사용)" }
+},
+{
+  en: "Extensor Indicis",
+  koNew: "집게폄근",
+  koOld: "시지신근",
+  region: "Forearm",
+  origin: { en: "Posterior surface of distal ulna and interosseous membrane", new: "자뼈 먼쪽 뒷면, 뼈사이막", old: "척골 원위 후면, 골간막" },
+  insertion: { en: "Extensor expansion of 2nd finger", new: "둘째 손가락 폄근널힘줄", old: "제2지 신근건막" },
+  action: { en: "Extension of index finger (independently)", new: "집게손가락 폄 (독립적)", old: "시지 신전 (독립적)" }
+},
+// Part 4: 손 내재근 (HAND INTRINSIC)
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 11. 손 — 엄지두덩근 (THENAR)                              ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Abductor Pollicis Brevis (APB)",
+  koNew: "짧은엄지벌림근",
+  koOld: "단무지외전근",
+  region: "Hand",
+  origin: { en: "Flexor retinaculum, scaphoid and trapezium tubercles", new: "굽힘근지지띠, 손배뼈·큰마름뼈 결절", old: "굴근지대, 주상골·대능형골 결절" },
+  insertion: { en: "Lateral side of base of proximal phalanx of thumb", new: "엄지 첫마디뼈 바닥 가쪽", old: "무지 근위지골 기저 외측" },
+  action: { en: "Thumb abduction at CMC and MCP", new: "엄지 CMC·MCP관절 벌림", old: "무지 CMC·MP 외전" }
+},
+{
+  en: "Flexor Pollicis Brevis (FPB)",
+  koNew: "짧은엄지굽힘근",
+  koOld: "단무지굴근",
+  region: "Hand",
+  origin: { en: "Superficial head: flexor retinaculum and trapezium; Deep head: trapezoid and capitate", new: "얕은갈래: 굽힘근지지띠, 큰마름뼈 / 깊은갈래: 작은마름뼈, 알머리뼈", old: "천두: 굴근지대, 대능형골 / 심두: 소능형골, 유두골" },
+  insertion: { en: "Lateral side of base of proximal phalanx of thumb", new: "엄지 첫마디뼈 바닥 가쪽", old: "무지 근위지골 기저 외측" },
+  action: { en: "Thumb flexion at MCP and CMC", new: "엄지 MCP·CMC관절 굽힘", old: "무지 MP·CMC 굴곡" }
+},
+{
+  en: "Opponens Pollicis",
+  koNew: "엄지맞섬근",
+  koOld: "무지대립근",
+  region: "Hand",
+  origin: { en: "Flexor retinaculum and tubercle of trapezium", new: "굽힘근지지띠, 큰마름뼈결절", old: "굴근지대, 대능형골결절" },
+  insertion: { en: "Lateral side of 1st metacarpal (whole length)", new: "첫째 손허리뼈 가쪽 (전체 길이)", old: "제1 중수골 외측 (전장)" },
+  action: { en: "Opposition of thumb (flexion + abduction + medial rotation)", new: "엄지 맞섬 (굽힘+벌림+안쪽돌림)", old: "무지 대립 (굴곡+외전+내회전)" }
+},
+{
+  en: "Adductor Pollicis",
+  koNew: "엄지모음근",
+  koOld: "무지내전근",
+  region: "Hand",
+  origin: { en: "Transverse head: anterior surface of 3rd metacarpal; Oblique head: bases of 2nd, 3rd metacarpals, capitate", new: "가로갈래: 셋째 손허리뼈 앞면 / 빗갈래: 둘째·셋째 손허리뼈 바닥, 알머리뼈", old: "횡두: 제3 중수골 전면 / 사두: 제2·3 중수골 기저, 유두골" },
+  insertion: { en: "Medial side of base of proximal phalanx of thumb", new: "엄지 첫마디뼈 바닥 안쪽", old: "무지 근위지골 기저 내측" },
+  action: { en: "Thumb adduction (toward index finger)", new: "엄지 모음 (집게손가락 방향)", old: "무지 내전 (시지 방향)" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 12. 손 — 새끼두덩근 (HYPOTHENAR)                          ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Abductor Digiti Minimi (Hand)",
+  koNew: "새끼벌림근 (손)",
+  koOld: "소지외전근 (수)",
+  region: "Hand",
+  origin: { en: "Pisiform and tendon of flexor carpi ulnaris", new: "콩알뼈, 자쪽손목굽힘근힘줄", old: "두상골, 척측수근굴근건" },
+  insertion: { en: "Medial side of base of proximal phalanx of 5th finger", new: "다섯째 손가락 첫마디뼈 바닥 안쪽", old: "제5지 근위지골 기저 내측" },
+  action: { en: "Abduction of little finger", new: "새끼손가락 벌림", old: "소지 외전" }
+},
+{
+  en: "Flexor Digiti Minimi Brevis (Hand)",
+  koNew: "짧은새끼굽힘근 (손)",
+  koOld: "단소지굴근 (수)",
+  region: "Hand",
+  origin: { en: "Hook of hamate and flexor retinaculum", new: "갈고리뼈갈고리, 굽힘근지지띠", old: "유구골 구, 굴근지대" },
+  insertion: { en: "Medial side of base of proximal phalanx of 5th finger", new: "다섯째 손가락 첫마디뼈 바닥 안쪽", old: "제5지 근위지골 기저 내측" },
+  action: { en: "Flexion of MCP joint of little finger", new: "새끼손가락 MCP관절 굽힘", old: "소지 MP 굴곡" }
+},
+{
+  en: "Opponens Digiti Minimi",
+  koNew: "새끼맞섬근",
+  koOld: "소지대립근",
+  region: "Hand",
+  origin: { en: "Hook of hamate and flexor retinaculum", new: "갈고리뼈갈고리, 굽힘근지지띠", old: "유구골 구, 굴근지대" },
+  insertion: { en: "Medial border of 5th metacarpal (whole length)", new: "다섯째 손허리뼈 안쪽모서리 (전체)", old: "제5 중수골 내측연 (전장)" },
+  action: { en: "Opposition of little finger (rotates and brings toward thumb)", new: "새끼손가락 맞섬 (엄지쪽으로 회전·이동)", old: "소지 대립 (무지 측으로 회전·이동)" }
+},
+{
+  en: "Palmaris Brevis",
+  koNew: "짧은손바닥근",
+  koOld: "단장근",
+  region: "Hand",
+  origin: { en: "Palmar aponeurosis and flexor retinaculum", new: "손바닥널힘줄, 굽힘근지지띠", old: "수장건막, 굴근지대" },
+  insertion: { en: "Skin of medial palm (hypothenar eminence)", new: "안쪽 손바닥 피부 (새끼두덩)", old: "내측 수장 피부 (소지구)" },
+  action: { en: "Wrinkles skin of palm to improve grip", new: "손바닥 피부 주름 형성, 쥐기 보조", old: "수장 피부 주름, 파지 보조" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 13. 손 — 벌레근·뼈사이근 (LUMBRICALS · INTEROSSEI)        ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Lumbricals (Hand) — 1st & 2nd",
+  koNew: "벌레근 (손) — 첫째·둘째",
+  koOld: "충양근 (수) — 제1·2",
+  region: "Hand",
+  origin: { en: "Tendons of flexor digitorum profundus (radial side, unipennate)", new: "깊은손가락굽힘근힘줄 노쪽 (한깃근)", old: "심지굴근건 요측 (단우상근)" },
+  insertion: { en: "Radial side of extensor expansion of fingers 2–3", new: "둘째·셋째 손가락 폄근널힘줄 노쪽", old: "제2·3지 신근건막 요측" },
+  action: { en: "Flexion at MCP, extension at IP joints (writing position)", new: "MCP관절 굽힘, IP관절 폄 (글쓰기 자세)", old: "MP 굴곡, IP 신전 (필기 자세)" }
+},
+{
+  en: "Lumbricals (Hand) — 3rd & 4th",
+  koNew: "벌레근 (손) — 셋째·넷째",
+  koOld: "충양근 (수) — 제3·4",
+  region: "Hand",
+  origin: { en: "Adjacent tendons of flexor digitorum profundus (bipennate)", new: "이웃한 깊은손가락굽힘근힘줄 (두깃근)", old: "인접 심지굴근건 (양우상근)" },
+  insertion: { en: "Radial side of extensor expansion of fingers 4–5", new: "넷째·다섯째 손가락 폄근널힘줄 노쪽", old: "제4·5지 신근건막 요측" },
+  action: { en: "Flexion at MCP, extension at IP joints", new: "MCP관절 굽힘, IP관절 폄", old: "MP 굴곡, IP 신전" }
+},
+{
+  en: "Dorsal Interossei (Hand) — 4 muscles",
+  koNew: "등쪽뼈사이근 (손) — 4개",
+  koOld: "배측골간근 (수) — 4개",
+  region: "Hand",
+  origin: { en: "Adjacent sides of metacarpals 1–5 (bipennate, each from two adjacent metacarpals)", new: "1–5번 손허리뼈 마주보는 면 (두깃근, 각각 인접 두 손허리뼈)", old: "제1–5 중수골 인접면 (양우상근, 각 인접 양측 중수골)" },
+  insertion: { en: "Bases of proximal phalanges and extensor expansions of fingers 2–4", new: "둘째~넷째 손가락 첫마디뼈 바닥, 폄근널힘줄", old: "제2–4지 근위지골 기저, 신근건막" },
+  action: { en: "Abduction (DAB - Dorsal ABduct) of fingers 2–4 from middle finger axis", new: "둘째~넷째 손가락 벌림 (DAB, 중지 축에서 멀어짐)", old: "제2–4지 외전 (DAB, 중지 축에서 외전)" }
+},
+{
+  en: "Palmar Interossei (Hand) — 3 muscles",
+  koNew: "바닥쪽뼈사이근 (손) — 3개",
+  koOld: "장측골간근 (수) — 3개",
+  region: "Hand",
+  origin: { en: "Palmar surfaces of metacarpals 2, 4, 5 (unipennate)", new: "둘째·넷째·다섯째 손허리뼈 바닥쪽면 (한깃근)", old: "제2·4·5 중수골 장측면 (단우상근)" },
+  insertion: { en: "Bases of proximal phalanges and extensor expansions of fingers 2, 4, 5", new: "둘째·넷째·다섯째 손가락 첫마디뼈 바닥, 폄근널힘줄", old: "제2·4·5지 근위지골 기저, 신근건막" },
+  action: { en: "Adduction (PAD - Palmar ADduct) of fingers 2, 4, 5 toward middle finger", new: "둘째·넷째·다섯째 손가락 모음 (PAD, 중지 축으로 모음)", old: "제2·4·5지 내전 (PAD, 중지 축으로 내전)" }
+},
+// Part 5: 엉덩 / 대퇴
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 14. 엉덩관절 — 굽힘근 / 얕은 볼기근 (HIP)                 ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Iliacus",
+  koNew: "엉덩근",
+  koOld: "장골근",
+  region: "Hip",
+  origin: { en: "Iliac fossa, anterior sacroiliac & iliolumbar ligaments", new: "엉덩뼈오목, 앞엉치엉덩인대·엉덩허리인대", old: "장골와, 전천장인대·장요인대" },
+  insertion: { en: "Lesser trochanter of femur (joint tendon with psoas)", new: "넙다리뼈 작은돌기 (큰허리근과 공동힘줄)", old: "대퇴골 소전자 (대요근과 합동건)" },
+  action: { en: "Hip flexion, lateral rotation; assists trunk flexion", new: "엉덩관절 굽힘·가쪽돌림, 몸통 굽힘 보조", old: "고관절 굴곡·외회전, 체간 굴곡 보조" }
+},
+{
+  en: "Psoas Major",
+  koNew: "큰허리근",
+  koOld: "대요근",
+  region: "Hip",
+  origin: { en: "T12–L5 vertebral bodies, transverse processes, intervertebral discs", new: "T12–L5 척추몸통, 가로돌기, 척추사이원반", old: "T12–L5 추체, 횡돌기, 추간판" },
+  insertion: { en: "Lesser trochanter of femur (joint tendon with iliacus)", new: "넙다리뼈 작은돌기 (엉덩근과 공동힘줄)", old: "대퇴골 소전자 (장골근과 합동건)" },
+  action: { en: "Hip flexion, lateral rotation; lumbar flexion (bilateral) or lateral flexion (unilateral)", new: "엉덩관절 굽힘·가쪽돌림, 양쪽: 허리 굽힘 / 한쪽: 허리 가쪽굽힘", old: "고관절 굴곡·외회전, 양측: 요추 굴곡 / 일측: 요추 측굴" }
+},
+{
+  en: "Psoas Minor",
+  koNew: "작은허리근",
+  koOld: "소요근",
+  region: "Hip",
+  origin: { en: "T12 and L1 vertebral bodies (variable, absent in ~40%)", new: "T12, L1 척추몸통 (변이가 있어 약 40%에서 없음)", old: "T12, L1 추체 (변이, 약 40% 결손)" },
+  insertion: { en: "Pectineal line of pubis, iliopectineal eminence", new: "두덩근선, 엉덩두덩융기", old: "치골즐, 장치융기" },
+  action: { en: "Weak trunk flexion", new: "약한 몸통 굽힘", old: "약한 체간 굴곡" }
+},
+{
+  en: "Gluteus Maximus",
+  koNew: "큰볼기근",
+  koOld: "대둔근",
+  region: "Hip",
+  origin: { en: "Posterior gluteal line of ilium, posterior surface of sacrum & coccyx, sacrotuberous ligament, thoracolumbar fascia", new: "엉덩뼈 뒤볼기근선, 엉치뼈·꼬리뼈 뒷면, 엉치결절인대, 등허리근막", old: "장골 후둔근선, 천골·미골 후면, 천결절인대, 흉요근막" },
+  insertion: { en: "Iliotibial tract (upper 3/4); gluteal tuberosity of femur (lower 1/4)", new: "엉덩정강근막띠 (위쪽 3/4), 넙다리뼈 볼기근거친면 (아래쪽 1/4)", old: "장경인대 (상부 3/4), 대퇴골 둔근조면 (하부 1/4)" },
+  action: { en: "Hip extension, lateral rotation; upper fibers: abduction; lower fibers: adduction", new: "엉덩관절 폄·가쪽돌림, 위섬유: 벌림 / 아래섬유: 모음", old: "고관절 신전·외회전, 상부: 외전 / 하부: 내전" }
+},
+{
+  en: "Gluteus Medius",
+  koNew: "중간볼기근",
+  koOld: "중둔근",
+  region: "Hip",
+  origin: { en: "External surface of ilium between anterior and posterior gluteal lines", new: "엉덩뼈 바깥면 (앞·뒤 볼기근선 사이)", old: "장골 외면 (전·후 둔근선 사이)" },
+  insertion: { en: "Lateral surface of greater trochanter of femur", new: "넙다리뼈 큰돌기 가쪽면", old: "대퇴골 대전자 외측면" },
+  action: { en: "Hip abduction (primary); anterior fibers: medial rotation/flexion; posterior fibers: lateral rotation/extension; pelvic stabilization in stance", new: "엉덩관절 벌림 (주작용), 앞섬유: 안쪽돌림·굽힘 / 뒷섬유: 가쪽돌림·폄, 한다리서기 시 골반 안정", old: "고관절 외전 (주동), 전부: 내회전·굴곡 / 후부: 외회전·신전, 입각기 골반 안정화" }
+},
+{
+  en: "Gluteus Minimus",
+  koNew: "작은볼기근",
+  koOld: "소둔근",
+  region: "Hip",
+  origin: { en: "External surface of ilium between anterior and inferior gluteal lines", new: "엉덩뼈 바깥면 (앞·아래 볼기근선 사이)", old: "장골 외면 (전·하 둔근선 사이)" },
+  insertion: { en: "Anterior surface of greater trochanter of femur", new: "넙다리뼈 큰돌기 앞면", old: "대퇴골 대전자 전면" },
+  action: { en: "Hip abduction, medial rotation, flexion; pelvic stabilization", new: "엉덩관절 벌림·안쪽돌림·굽힘, 골반 안정화", old: "고관절 외전·내회전·굴곡, 골반 안정화" }
+},
+{
+  en: "Tensor Fasciae Latae (TFL)",
+  koNew: "넙다리근막긴장근",
+  koOld: "대퇴근막장근",
+  region: "Hip",
+  origin: { en: "Anterior superior iliac spine (ASIS) and adjacent iliac crest", new: "위앞엉덩뼈가시, 인접 엉덩뼈능선", old: "전상장골극, 인접 장골릉" },
+  insertion: { en: "Iliotibial tract → lateral condyle of tibia (Gerdy's tubercle)", new: "엉덩정강근막띠 → 정강뼈 가쪽관절융기 (거디결절)", old: "장경인대 → 경골 외측과 (Gerdy 결절)" },
+  action: { en: "Hip flexion, abduction, medial rotation; tenses iliotibial tract; stabilizes knee in extension", new: "엉덩관절 굽힘·벌림·안쪽돌림, 엉덩정강근막띠 긴장, 폄 자세 무릎 안정", old: "고관절 굴곡·외전·내회전, 장경인대 긴장, 슬관절 신전 안정" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 15. 엉덩관절 — 깊은 가쪽돌림근 (DEEP EXTERNAL ROTATORS)   ║
+// ║    "Deep Six": 6개 근육 — 모두 가쪽돌림 + 큰돌기 부착       ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Piriformis",
+  koNew: "궁둥구멍근",
+  koOld: "이상근",
+  region: "Hip",
+  origin: { en: "Anterior surface of sacrum (S2–S4), passes through greater sciatic foramen", new: "엉치뼈 앞면 (S2–S4), 큰궁둥구멍 통과", old: "천골 전면 (S2–S4), 대좌골공 통과" },
+  insertion: { en: "Superior border of greater trochanter of femur", new: "넙다리뼈 큰돌기 위모서리", old: "대퇴골 대전자 상연" },
+  action: { en: "Lateral rotation of hip (extended); abduction of hip when flexed >90°", new: "엉덩관절 가쪽돌림(폄 자세), 굽힘 90° 초과 시 벌림", old: "고관절 외회전(신전위), 굴곡 90° 이상에서 외전" }
+},
+{
+  en: "Obturator Internus",
+  koNew: "속폐쇄근",
+  koOld: "내폐쇄근",
+  region: "Hip",
+  origin: { en: "Internal (pelvic) surface of obturator membrane and surrounding bone", new: "폐쇄막 골반쪽 면, 주변 뼈", old: "폐쇄막 내면 (골반쪽), 주변 골" },
+  insertion: { en: "Medial surface of greater trochanter (trochanteric fossa) — joint tendon with gemelli", new: "큰돌기 안쪽면 (돌기오목) — 쌍둥이근과 공동힘줄", old: "대전자 내측면 (전자와) — 쌍자근과 합동건" },
+  action: { en: "Lateral rotation of hip (extended); abduction when hip flexed", new: "엉덩관절 가쪽돌림(폄위), 굽힘 시 벌림", old: "고관절 외회전(신전위), 굴곡 시 외전" }
+},
+{
+  en: "Obturator Externus",
+  koNew: "바깥폐쇄근",
+  koOld: "외폐쇄근",
+  region: "Hip",
+  origin: { en: "External surface of obturator membrane and adjacent bone", new: "폐쇄막 바깥면, 인접 뼈", old: "폐쇄막 외면, 인접 골" },
+  insertion: { en: "Trochanteric fossa of femur", new: "넙다리뼈 돌기오목", old: "대퇴골 전자와" },
+  action: { en: "Lateral rotation of hip; stabilizes hip joint", new: "엉덩관절 가쪽돌림, 엉덩관절 안정화", old: "고관절 외회전, 고관절 안정" }
+},
+{
+  en: "Gemellus Superior",
+  koNew: "위쌍둥이근",
+  koOld: "상쌍자근",
+  region: "Hip",
+  origin: { en: "Ischial spine", new: "궁둥뼈가시", old: "좌골극" },
+  insertion: { en: "Medial surface of greater trochanter (with obturator internus tendon)", new: "큰돌기 안쪽면 (속폐쇄근 힘줄과 함께)", old: "대전자 내측면 (내폐쇄근건과 합동)" },
+  action: { en: "Lateral rotation of hip; abduction when flexed", new: "엉덩관절 가쪽돌림, 굽힘 시 벌림", old: "고관절 외회전, 굴곡 시 외전" }
+},
+{
+  en: "Gemellus Inferior",
+  koNew: "아래쌍둥이근",
+  koOld: "하쌍자근",
+  region: "Hip",
+  origin: { en: "Upper part of ischial tuberosity", new: "궁둥뼈결절 위쪽", old: "좌골결절 상부" },
+  insertion: { en: "Medial surface of greater trochanter (with obturator internus tendon)", new: "큰돌기 안쪽면 (속폐쇄근 힘줄과 함께)", old: "대전자 내측면 (내폐쇄근건과 합동)" },
+  action: { en: "Lateral rotation of hip; abduction when flexed", new: "엉덩관절 가쪽돌림, 굽힘 시 벌림", old: "고관절 외회전, 굴곡 시 외전" }
+},
+{
+  en: "Quadratus Femoris",
+  koNew: "넙다리네모근",
+  koOld: "대퇴방형근",
+  region: "Hip",
+  origin: { en: "Lateral border of ischial tuberosity", new: "궁둥뼈결절 가쪽모서리", old: "좌골결절 외측연" },
+  insertion: { en: "Quadrate tubercle on intertrochanteric crest of femur", new: "넙다리뼈 돌기사이능선의 네모근결절", old: "대퇴골 전자간릉 방형근결절" },
+  action: { en: "Lateral rotation and adduction of hip", new: "엉덩관절 가쪽돌림·모음", old: "고관절 외회전·내전" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 16. 대퇴 — 모음근 (ADDUCTORS)                            ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Adductor Longus",
+  koNew: "긴모음근",
+  koOld: "장내전근",
+  region: "Thigh",
+  origin: { en: "Body of pubis (just below pubic crest, lateral to symphysis)", new: "두덩뼈몸통 (두덩능선 아래, 결합 가쪽)", old: "치골체 (치골릉 하방, 결합 외측)" },
+  insertion: { en: "Middle 1/3 of medial lip of linea aspera of femur", new: "넙다리뼈 거친선 안쪽선 중간 1/3", old: "대퇴골 조선 내측순 중간 1/3" },
+  action: { en: "Hip adduction, flexion, medial rotation", new: "엉덩관절 모음·굽힘·안쪽돌림", old: "고관절 내전·굴곡·내회전" }
+},
+{
+  en: "Adductor Brevis",
+  koNew: "짧은모음근",
+  koOld: "단내전근",
+  region: "Thigh",
+  origin: { en: "Body and inferior ramus of pubis", new: "두덩뼈몸통, 두덩뼈아래가지", old: "치골체, 치골하지" },
+  insertion: { en: "Pectineal line and proximal medial lip of linea aspera", new: "두덩근선, 거친선 안쪽선 위쪽", old: "치골즐, 조선 내측순 근위부" },
+  action: { en: "Hip adduction, flexion", new: "엉덩관절 모음·굽힘", old: "고관절 내전·굴곡" }
+},
+{
+  en: "Adductor Magnus",
+  koNew: "큰모음근",
+  koOld: "대내전근",
+  region: "Thigh",
+  origin: { en: "Adductor part: inferior pubic ramus & ischial ramus; Hamstring (ischiocondylar) part: ischial tuberosity", new: "모음부분: 두덩뼈아래가지, 궁둥뼈가지 / 햄스트링부분: 궁둥뼈결절", old: "내전부: 치골하지, 좌골지 / 햄스트링부: 좌골결절" },
+  insertion: { en: "Adductor part: linea aspera and medial supracondylar line; Hamstring part: adductor tubercle", new: "모음부분: 거친선·안쪽관절융기위선 / 햄스트링부분: 모음근결절", old: "내전부: 조선·내측상과릉 / 햄스트링부: 내전근결절" },
+  action: { en: "Adductor part: hip adduction & flexion; Hamstring part: hip extension", new: "모음부분: 엉덩관절 모음·굽힘 / 햄스트링부분: 엉덩관절 폄", old: "내전부: 고관절 내전·굴곡 / 햄스트링부: 고관절 신전" }
+},
+{
+  en: "Pectineus",
+  koNew: "두덩근",
+  koOld: "치골근",
+  region: "Thigh",
+  origin: { en: "Pectineal line (pecten pubis) of superior pubic ramus", new: "두덩뼈위가지 두덩근선", old: "치골상지 치골즐" },
+  insertion: { en: "Pectineal line of femur (between lesser trochanter and linea aspera)", new: "넙다리뼈 두덩근선 (작은돌기~거친선)", old: "대퇴골 치골근선 (소전자~조선)" },
+  action: { en: "Hip flexion and adduction", new: "엉덩관절 굽힘·모음", old: "고관절 굴곡·내전" }
+},
+{
+  en: "Gracilis",
+  koNew: "두덩정강근",
+  koOld: "박근",
+  region: "Thigh",
+  origin: { en: "Body and inferior ramus of pubis", new: "두덩뼈몸통, 두덩뼈아래가지", old: "치골체, 치골하지" },
+  insertion: { en: "Medial surface of proximal tibia (pes anserinus, with sartorius and semitendinosus)", new: "정강뼈 안쪽 몸쪽면 (거위발: 넙다리빗근·반힘줄근과 함께)", old: "경골 내측 근위면 (거위발건: 봉공근·반건양근과 합동)" },
+  action: { en: "Hip adduction; weak knee flexion and medial rotation of flexed knee", new: "엉덩관절 모음, 무릎관절 약한 굽힘·굽힌 무릎의 안쪽돌림", old: "고관절 내전, 슬관절 약한 굴곡·굴곡 슬관절 내회전" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 17. 대퇴 — 앞칸 (ANTERIOR COMPARTMENT)                   ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Sartorius",
+  koNew: "넙다리빗근",
+  koOld: "봉공근",
+  region: "Thigh",
+  origin: { en: "Anterior superior iliac spine (ASIS)", new: "위앞엉덩뼈가시", old: "전상장골극" },
+  insertion: { en: "Medial surface of proximal tibia (pes anserinus)", new: "정강뼈 안쪽 몸쪽면 (거위발)", old: "경골 내측 근위면 (거위발건)" },
+  action: { en: "Hip flexion, abduction, lateral rotation; knee flexion, medial rotation (\"tailor's position\")", new: "엉덩관절 굽힘·벌림·가쪽돌림, 무릎관절 굽힘·안쪽돌림 (양반다리 자세)", old: "고관절 굴곡·외전·외회전, 슬관절 굴곡·내회전 (재단사 자세)" }
+},
+{
+  en: "Quadriceps Femoris — Rectus Femoris",
+  koNew: "넙다리네갈래근 — 넙다리곧은근",
+  koOld: "대퇴사두근 — 대퇴직근",
+  region: "Thigh",
+  origin: { en: "Straight head: anterior inferior iliac spine (AIIS); Reflected head: superior margin of acetabulum", new: "곧은갈래: 아래앞엉덩뼈가시 / 반사갈래: 절구 위모서리", old: "직두: 전하장골극 / 반회두: 관골구 상연" },
+  insertion: { en: "Tibial tuberosity via patellar ligament (after merging with other quadriceps)", new: "무릎인대를 거쳐 정강뼈거친면 (다른 네갈래근과 합쳐진 후)", old: "슬개건 통해 경골조면 (타 사두근과 합류 후)" },
+  action: { en: "Knee extension, hip flexion (only quadriceps that crosses both joints)", new: "무릎관절 폄, 엉덩관절 굽힘 (양관절을 지나는 유일한 사두근)", old: "슬관절 신전, 고관절 굴곡 (양관절 통과 유일 사두근)" }
+},
+{
+  en: "Quadriceps Femoris — Vastus Lateralis",
+  koNew: "넙다리네갈래근 — 가쪽넓은근",
+  koOld: "대퇴사두근 — 외측광근",
+  region: "Thigh",
+  origin: { en: "Greater trochanter, intertrochanteric line, gluteal tuberosity, lateral lip of linea aspera", new: "큰돌기, 돌기사이선, 볼기근거친면, 거친선 가쪽선", old: "대전자, 전자간선, 둔근조면, 조선 외측순" },
+  insertion: { en: "Tibial tuberosity via patellar ligament", new: "무릎인대를 거쳐 정강뼈거친면", old: "슬개건 통해 경골조면" },
+  action: { en: "Knee extension", new: "무릎관절 폄", old: "슬관절 신전" }
+},
+{
+  en: "Quadriceps Femoris — Vastus Medialis",
+  koNew: "넙다리네갈래근 — 안쪽넓은근",
+  koOld: "대퇴사두근 — 내측광근",
+  region: "Thigh",
+  origin: { en: "Intertrochanteric line, medial lip of linea aspera, medial supracondylar line", new: "돌기사이선, 거친선 안쪽선, 안쪽관절융기위선", old: "전자간선, 조선 내측순, 내측상과릉" },
+  insertion: { en: "Tibial tuberosity via patellar ligament", new: "무릎인대를 거쳐 정강뼈거친면", old: "슬개건 통해 경골조면" },
+  action: { en: "Knee extension; oblique fibers (VMO) stabilize patella medially", new: "무릎관절 폄, 빗섬유(VMO)는 무릎뼈 안쪽 안정화", old: "슬관절 신전, 사섬유(VMO)는 슬개골 내측 안정화" }
+},
+{
+  en: "Quadriceps Femoris — Vastus Intermedius",
+  koNew: "넙다리네갈래근 — 중간넓은근",
+  koOld: "대퇴사두근 — 중간광근",
+  region: "Thigh",
+  origin: { en: "Anterior and lateral surfaces of femoral shaft (proximal 2/3)", new: "넙다리뼈몸통 앞면·가쪽면 (몸쪽 2/3)", old: "대퇴골간 전면·외측면 (근위 2/3)" },
+  insertion: { en: "Tibial tuberosity via patellar ligament", new: "무릎인대를 거쳐 정강뼈거친면", old: "슬개건 통해 경골조면" },
+  action: { en: "Knee extension", new: "무릎관절 폄", old: "슬관절 신전" }
+},
+{
+  en: "Articularis Genus",
+  koNew: "무릎관절근",
+  koOld: "슬관절근",
+  region: "Thigh",
+  origin: { en: "Anterior surface of distal femur (deep to vastus intermedius)", new: "넙다리뼈 먼쪽 앞면 (중간넓은근 깊은쪽)", old: "대퇴골 원위 전면 (중간광근 심부)" },
+  insertion: { en: "Suprapatellar bursa of knee joint capsule", new: "무릎관절주머니 무릎뼈위주머니", old: "슬관절포 슬개상낭" },
+  action: { en: "Pulls suprapatellar bursa proximally during knee extension (prevents impingement)", new: "무릎 폄 시 무릎뼈위주머니 위로 당김 (끼임 방지)", old: "슬관절 신전 시 슬개상낭 상방 견인 (감입 방지)" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 18. 대퇴 — 뒤칸 (HAMSTRINGS)                              ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Biceps Femoris — Long Head",
+  koNew: "넙다리두갈래근 — 긴갈래",
+  koOld: "대퇴이두근 — 장두",
+  region: "Thigh",
+  origin: { en: "Ischial tuberosity (with semitendinosus, common tendon)", new: "궁둥뼈결절 (반힘줄근과 공동힘줄)", old: "좌골결절 (반건양근과 합동건)" },
+  insertion: { en: "Head of fibula (joins with short head)", new: "종아리뼈머리 (짧은갈래와 합류)", old: "비골두 (단두와 합류)" },
+  action: { en: "Knee flexion, lateral rotation of flexed knee, hip extension", new: "무릎관절 굽힘, 굽힌 무릎의 가쪽돌림, 엉덩관절 폄", old: "슬관절 굴곡, 굴곡 슬관절 외회전, 고관절 신전" }
+},
+{
+  en: "Biceps Femoris — Short Head",
+  koNew: "넙다리두갈래근 — 짧은갈래",
+  koOld: "대퇴이두근 — 단두",
+  region: "Thigh",
+  origin: { en: "Lateral lip of linea aspera and lateral supracondylar line of femur", new: "넙다리뼈 거친선 가쪽선, 가쪽관절융기위선", old: "대퇴골 조선 외측순, 외측상과릉" },
+  insertion: { en: "Head of fibula", new: "종아리뼈머리", old: "비골두" },
+  action: { en: "Knee flexion, lateral rotation of flexed knee", new: "무릎관절 굽힘, 굽힌 무릎의 가쪽돌림", old: "슬관절 굴곡, 굴곡 슬관절 외회전" }
+},
+{
+  en: "Semitendinosus",
+  koNew: "반힘줄근",
+  koOld: "반건양근",
+  region: "Thigh",
+  origin: { en: "Ischial tuberosity (with biceps femoris long head)", new: "궁둥뼈결절 (넙다리두갈래근 긴갈래와 함께)", old: "좌골결절 (대퇴이두근 장두와 함께)" },
+  insertion: { en: "Medial surface of proximal tibia (pes anserinus)", new: "정강뼈 안쪽 몸쪽면 (거위발)", old: "경골 내측 근위면 (거위발건)" },
+  action: { en: "Hip extension, knee flexion, medial rotation of flexed knee", new: "엉덩관절 폄, 무릎관절 굽힘, 굽힌 무릎의 안쪽돌림", old: "고관절 신전, 슬관절 굴곡, 굴곡 슬관절 내회전" }
+},
+{
+  en: "Semimembranosus",
+  koNew: "반막근",
+  koOld: "반막양근",
+  region: "Thigh",
+  origin: { en: "Ischial tuberosity (deep, lateral to biceps/semitendinosus origin)", new: "궁둥뼈결절 (이두근/반힘줄근 기시 깊은쪽 가쪽)", old: "좌골결절 (이두근/반건양근 기시 심부 외측)" },
+  insertion: { en: "Posterior part of medial condyle of tibia; oblique popliteal ligament", new: "정강뼈 안쪽관절융기 뒷부분, 빗오금인대", old: "경골 내측과 후부, 사슬와인대" },
+  action: { en: "Hip extension, knee flexion, medial rotation of flexed knee", new: "엉덩관절 폄, 무릎관절 굽힘, 굽힌 무릎의 안쪽돌림", old: "고관절 신전, 슬관절 굴곡, 굴곡 슬관절 내회전" }
+},
+// Part 6: 하퇴 (LEG) + 발 (FOOT)
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 19. 하퇴 — 앞칸 (ANTERIOR LEG, dorsiflexors)             ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Tibialis Anterior",
+  koNew: "앞정강근",
+  koOld: "전경골근",
+  region: "Leg",
+  origin: { en: "Lateral condyle and upper 2/3 of lateral surface of tibia, interosseous membrane", new: "정강뼈 가쪽관절융기, 가쪽면 위쪽 2/3, 뼈사이막", old: "경골 외측과, 외측면 상부 2/3, 골간막" },
+  insertion: { en: "Medial cuneiform and base of 1st metatarsal (medial/plantar surface)", new: "안쪽쐐기뼈, 첫째 발허리뼈 바닥 (안쪽·바닥쪽면)", old: "내측설상골, 제1 중족골 기저 (내측·족저면)" },
+  action: { en: "Dorsiflexion of ankle, inversion of foot; supports medial longitudinal arch", new: "발목 발등굽힘, 발 안쪽번짐, 안쪽 세로발활 지지", old: "족관절 배측굴곡, 족부 내번, 내측 종아치 지지" }
+},
+{
+  en: "Extensor Hallucis Longus (EHL)",
+  koNew: "긴엄지폄근",
+  koOld: "장무지신근",
+  region: "Leg",
+  origin: { en: "Middle of anterior surface of fibula and interosseous membrane", new: "종아리뼈 앞면 중간, 뼈사이막", old: "비골 전면 중간, 골간막" },
+  insertion: { en: "Base of distal phalanx of great toe", new: "엄지발가락 끝마디뼈 바닥", old: "무지 원위지골 기저" },
+  action: { en: "Extension of great toe, dorsiflexion of ankle, weak inversion", new: "엄지발가락 폄, 발목 발등굽힘, 약한 안쪽번짐", old: "무지 신전, 족관절 배측굴곡, 약한 내번" }
+},
+{
+  en: "Extensor Digitorum Longus (EDL)",
+  koNew: "긴발가락폄근",
+  koOld: "장지신근",
+  region: "Leg",
+  origin: { en: "Lateral condyle of tibia, anterior surface of fibula, interosseous membrane", new: "정강뼈 가쪽관절융기, 종아리뼈 앞면, 뼈사이막", old: "경골 외측과, 비골 전면, 골간막" },
+  insertion: { en: "Extensor expansions of toes 2–5 (middle and distal phalanges)", new: "둘째~다섯째 발가락 폄근널힘줄 (중간·끝마디뼈)", old: "제2~5지 신근건막 (중절·원위지골)" },
+  action: { en: "Extension of toes 2–5, dorsiflexion of ankle, eversion of foot", new: "둘째~다섯째 발가락 폄, 발목 발등굽힘, 가쪽번짐", old: "제2~5지 신전, 족관절 배측굴곡, 외번" }
+},
+{
+  en: "Fibularis (Peroneus) Tertius",
+  koNew: "셋째종아리근",
+  koOld: "제3비골근",
+  region: "Leg",
+  origin: { en: "Distal anterior surface of fibula and interosseous membrane (continuous with EDL)", new: "종아리뼈 먼쪽 앞면, 뼈사이막 (긴발가락폄근과 이어짐)", old: "비골 원위 전면, 골간막 (장지신근 연속)" },
+  insertion: { en: "Base of 5th metatarsal (dorsal)", new: "다섯째 발허리뼈 바닥 (등쪽)", old: "제5 중족골 기저 (배측)" },
+  action: { en: "Dorsiflexion and eversion of foot", new: "발목 발등굽힘, 발 가쪽번짐", old: "족관절 배측굴곡, 족부 외번" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 20. 하퇴 — 가쪽칸 (LATERAL LEG, evertors)                ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Fibularis (Peroneus) Longus",
+  koNew: "긴종아리근",
+  koOld: "장비골근",
+  region: "Leg",
+  origin: { en: "Head and upper 2/3 of lateral surface of fibula, lateral condyle of tibia", new: "종아리뼈머리, 가쪽면 위쪽 2/3, 정강뼈 가쪽관절융기", old: "비골두, 비골 외측면 상부 2/3, 경골 외측과" },
+  insertion: { en: "Base of 1st metatarsal and medial cuneiform (plantar surface, after crossing sole)", new: "첫째 발허리뼈 바닥, 안쪽쐐기뼈 (발바닥쪽, 발바닥을 가로질러)", old: "제1 중족골 기저, 내측설상골 (족저측, 족저 횡주)" },
+  action: { en: "Eversion of foot, plantarflexion of ankle; supports lateral and transverse arches", new: "발 가쪽번짐, 발목 발바닥굽힘, 가쪽·가로 발활 지지", old: "족부 외번, 족관절 저측굴곡, 외측·횡 발활 지지" }
+},
+{
+  en: "Fibularis (Peroneus) Brevis",
+  koNew: "짧은종아리근",
+  koOld: "단비골근",
+  region: "Leg",
+  origin: { en: "Lower 2/3 of lateral surface of fibula", new: "종아리뼈 가쪽면 아래쪽 2/3", old: "비골 외측면 하부 2/3" },
+  insertion: { en: "Tuberosity of 5th metatarsal", new: "다섯째 발허리뼈 거친면", old: "제5 중족골 조면" },
+  action: { en: "Eversion of foot, weak plantarflexion", new: "발 가쪽번짐, 약한 발바닥굽힘", old: "족부 외번, 약한 저측굴곡" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 21. 하퇴 — 뒤칸 얕은층 (POSTERIOR LEG, superficial)      ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Gastrocnemius — Medial Head",
+  koNew: "장딴지근 — 안쪽갈래",
+  koOld: "비복근 — 내측두",
+  region: "Leg",
+  origin: { en: "Posterior surface of medial condyle of femur", new: "넙다리뼈 안쪽관절융기 뒷면", old: "대퇴골 내측과 후면" },
+  insertion: { en: "Posterior surface of calcaneus via Achilles (calcaneal) tendon", new: "발꿈치힘줄(아킬레스건)을 거쳐 발꿈치뼈 뒷면", old: "종골건(아킬레스건) 통해 종골 후면" },
+  action: { en: "Plantarflexion of ankle, knee flexion (biarticular)", new: "발목 발바닥굽힘, 무릎관절 굽힘 (양관절근)", old: "족관절 저측굴곡, 슬관절 굴곡 (양관절근)" }
+},
+{
+  en: "Gastrocnemius — Lateral Head",
+  koNew: "장딴지근 — 가쪽갈래",
+  koOld: "비복근 — 외측두",
+  region: "Leg",
+  origin: { en: "Posterior surface of lateral condyle of femur", new: "넙다리뼈 가쪽관절융기 뒷면", old: "대퇴골 외측과 후면" },
+  insertion: { en: "Posterior surface of calcaneus via Achilles tendon", new: "발꿈치힘줄을 거쳐 발꿈치뼈 뒷면", old: "종골건 통해 종골 후면" },
+  action: { en: "Plantarflexion of ankle, knee flexion", new: "발목 발바닥굽힘, 무릎관절 굽힘", old: "족관절 저측굴곡, 슬관절 굴곡" }
+},
+{
+  en: "Soleus",
+  koNew: "가자미근",
+  koOld: "넙치근",
+  region: "Leg",
+  origin: { en: "Soleal line of tibia, posterior fibular head and proximal 1/3 of fibula", new: "정강뼈 가자미근선, 종아리뼈머리 뒷면, 종아리뼈 몸쪽 1/3", old: "경골 넙치근선, 비골두 후면, 비골 근위 1/3" },
+  insertion: { en: "Posterior surface of calcaneus via Achilles tendon", new: "발꿈치힘줄을 거쳐 발꿈치뼈 뒷면", old: "종골건 통해 종골 후면" },
+  action: { en: "Plantarflexion of ankle (especially with knee flexed); postural muscle in standing", new: "발목 발바닥굽힘 (무릎 굽힘 시 강함), 직립 자세근", old: "족관절 저측굴곡 (슬관절 굴곡 시 강력), 입위 자세근" }
+},
+{
+  en: "Plantaris",
+  koNew: "장딴지빗근",
+  koOld: "족척근",
+  region: "Leg",
+  origin: { en: "Lateral supracondylar line of femur (above lateral head of gastrocnemius)", new: "넙다리뼈 가쪽관절융기위선 (장딴지근 가쪽갈래 위쪽)", old: "대퇴골 외측상과릉 (비복근 외측두 상부)" },
+  insertion: { en: "Posterior surface of calcaneus (via long tendon, often with Achilles)", new: "발꿈치뼈 뒷면 (긴 힘줄, 발꿈치힘줄과 함께 자주)", old: "종골 후면 (긴 건, 종골건과 합류 빈번)" },
+  action: { en: "Weak plantarflexion and knee flexion (mostly proprioceptive)", new: "약한 발바닥굽힘·무릎 굽힘 (주로 고유감각)", old: "약한 저측굴곡·슬관절 굴곡 (주로 고유감각)" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 22. 하퇴 — 뒤칸 깊은층 (POSTERIOR LEG, deep)             ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Popliteus",
+  koNew: "오금근",
+  koOld: "슬와근",
+  region: "Leg",
+  origin: { en: "Lateral condyle of femur and lateral meniscus", new: "넙다리뼈 가쪽관절융기, 가쪽반달", old: "대퇴골 외측과, 외측 반월판" },
+  insertion: { en: "Posterior surface of tibia (above soleal line)", new: "정강뼈 뒷면 (가자미근선 위쪽)", old: "경골 후면 (넙치근선 상부)" },
+  action: { en: "\"Unlocks\" knee by laterally rotating femur on tibia (or medially rotating tibia on femur); weak knee flexion", new: "무릎 풀기: 정강뼈 위 넙다리뼈 가쪽돌림 (또는 넙다리뼈 위 정강뼈 안쪽돌림), 약한 무릎 굽힘", old: "슬관절 잠금 해제: 경골 위 대퇴골 외회전 (또는 대퇴골 위 경골 내회전), 약한 슬관절 굴곡" }
+},
+{
+  en: "Tibialis Posterior",
+  koNew: "뒤정강근",
+  koOld: "후경골근",
+  region: "Leg",
+  origin: { en: "Posterior surfaces of tibia, fibula, and interosseous membrane", new: "정강뼈·종아리뼈 뒷면, 뼈사이막", old: "경골·비골 후면, 골간막" },
+  insertion: { en: "Tuberosity of navicular, all 3 cuneiforms, cuboid, bases of 2nd–4th metatarsals", new: "발배뼈거친면, 3개 쐐기뼈, 입방뼈, 둘째~넷째 발허리뼈 바닥", old: "주상골조면, 3 설상골, 입방골, 제2~4 중족골 기저" },
+  action: { en: "Inversion of foot, plantarflexion; major support of medial longitudinal arch", new: "발 안쪽번짐, 발바닥굽힘, 안쪽 세로발활 주요 지지", old: "족부 내번, 저측굴곡, 내측 종아치 주요 지지" }
+},
+{
+  en: "Flexor Digitorum Longus (FDL)",
+  koNew: "긴발가락굽힘근",
+  koOld: "장지굴근",
+  region: "Leg",
+  origin: { en: "Posterior surface of tibia (below soleal line)", new: "정강뼈 뒷면 (가자미근선 아래)", old: "경골 후면 (넙치근선 하방)" },
+  insertion: { en: "Bases of distal phalanges of toes 2–5 (plantar)", new: "둘째~다섯째 발가락 끝마디뼈 바닥 (바닥쪽)", old: "제2~5지 원위지골 기저 (족저측)" },
+  action: { en: "Flexion of toes 2–5 (DIP), assists plantarflexion and inversion", new: "둘째~다섯째 발가락 굽힘 (DIP), 발바닥굽힘·안쪽번짐 보조", old: "제2~5지 굴곡 (DIP), 저측굴곡·내번 보조" }
+},
+{
+  en: "Flexor Hallucis Longus (FHL)",
+  koNew: "긴엄지굽힘근",
+  koOld: "장무지굴근",
+  region: "Leg",
+  origin: { en: "Lower 2/3 of posterior surface of fibula and interosseous membrane", new: "종아리뼈 뒷면 아래쪽 2/3, 뼈사이막", old: "비골 후면 하부 2/3, 골간막" },
+  insertion: { en: "Base of distal phalanx of great toe (plantar)", new: "엄지발가락 끝마디뼈 바닥 (바닥쪽)", old: "무지 원위지골 기저 (족저측)" },
+  action: { en: "Flexion of great toe, plantarflexion, inversion; key for push-off in gait", new: "엄지발가락 굽힘, 발바닥굽힘, 안쪽번짐, 보행 시 발구르기 핵심", old: "무지 굴곡, 저측굴곡, 내번, 보행 시 추진 핵심" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 23. 발 — 등쪽 (DORSAL FOOT)                              ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Extensor Digitorum Brevis (EDB)",
+  koNew: "짧은발가락폄근",
+  koOld: "단지신근",
+  region: "Foot",
+  origin: { en: "Dorsal surface of calcaneus, inferior extensor retinaculum", new: "발꿈치뼈 등쪽면, 아래폄근지지띠", old: "종골 배측면, 하신근지대" },
+  insertion: { en: "Tendons of extensor digitorum longus of toes 2–4 (extensor expansions)", new: "둘째~넷째 발가락 긴발가락폄근힘줄 (폄근널힘줄)", old: "제2–4지 장지신근건 (신근건막)" },
+  action: { en: "Extension of toes 2–4 at MTP joint", new: "둘째~넷째 발가락 MTP관절 폄", old: "제2–4지 MTP 신전" }
+},
+{
+  en: "Extensor Hallucis Brevis (EHB)",
+  koNew: "짧은엄지폄근",
+  koOld: "단무지신근",
+  region: "Foot",
+  origin: { en: "Dorsal surface of calcaneus (medial part of EDB origin)", new: "발꿈치뼈 등쪽면 (짧은발가락폄근 기시 안쪽부)", old: "종골 배측면 (단지신근 기시 내측부)" },
+  insertion: { en: "Base of proximal phalanx of great toe (dorsal)", new: "엄지발가락 첫마디뼈 바닥 (등쪽)", old: "무지 근위지골 기저 (배측)" },
+  action: { en: "Extension of great toe at MTP joint", new: "엄지발가락 MTP관절 폄", old: "무지 MTP 신전" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 24. 발 — 바닥쪽 1층 (PLANTAR LAYER 1)                    ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Abductor Hallucis",
+  koNew: "엄지벌림근",
+  koOld: "무지외전근",
+  region: "Foot",
+  origin: { en: "Medial process of calcaneal tuberosity, flexor retinaculum, plantar aponeurosis", new: "발꿈치뼈거친면 안쪽돌기, 굽힘근지지띠, 발바닥널힘줄", old: "종골조면 내측돌기, 굴근지대, 족저건막" },
+  insertion: { en: "Medial side of base of proximal phalanx of great toe", new: "엄지발가락 첫마디뼈 바닥 안쪽", old: "무지 근위지골 기저 내측" },
+  action: { en: "Abducts and flexes great toe at MTP; supports medial arch", new: "엄지발가락 벌림·MTP 굽힘, 안쪽 발활 지지", old: "무지 외전·MTP 굴곡, 내측 발활 지지" }
+},
+{
+  en: "Flexor Digitorum Brevis (FDB)",
+  koNew: "짧은발가락굽힘근",
+  koOld: "단지굴근",
+  region: "Foot",
+  origin: { en: "Medial process of calcaneal tuberosity, plantar aponeurosis", new: "발꿈치뼈거친면 안쪽돌기, 발바닥널힘줄", old: "종골조면 내측돌기, 족저건막" },
+  insertion: { en: "Sides of middle phalanges of toes 2–5", new: "둘째~다섯째 발가락 중간마디뼈 양쪽", old: "제2~5지 중절골 양측" },
+  action: { en: "Flexion of toes 2–5 at PIP joints", new: "둘째~다섯째 발가락 PIP관절 굽힘", old: "제2~5지 PIP 굴곡" }
+},
+{
+  en: "Abductor Digiti Minimi (Foot)",
+  koNew: "새끼벌림근 (발)",
+  koOld: "소지외전근 (족)",
+  region: "Foot",
+  origin: { en: "Medial and lateral processes of calcaneal tuberosity, plantar aponeurosis", new: "발꿈치뼈거친면 안쪽·가쪽돌기, 발바닥널힘줄", old: "종골조면 내·외측돌기, 족저건막" },
+  insertion: { en: "Lateral side of base of proximal phalanx of 5th toe", new: "다섯째 발가락 첫마디뼈 바닥 가쪽", old: "제5지 근위지골 기저 외측" },
+  action: { en: "Abducts and flexes 5th toe at MTP; supports lateral arch", new: "새끼발가락 벌림·MTP 굽힘, 가쪽 발활 지지", old: "소지 외전·MTP 굴곡, 외측 발활 지지" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 25. 발 — 바닥쪽 2층 (PLANTAR LAYER 2)                    ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Quadratus Plantae (Flexor Accessorius)",
+  koNew: "발바닥네모근",
+  koOld: "족저방형근",
+  region: "Foot",
+  origin: { en: "Two heads from medial and lateral surfaces of calcaneus", new: "발꿈치뼈 안쪽·가쪽면 두 갈래", old: "종골 내·외측면 양두" },
+  insertion: { en: "Lateral border of tendon of flexor digitorum longus", new: "긴발가락굽힘근힘줄 가쪽모서리", old: "장지굴근건 외측연" },
+  action: { en: "Assists FDL in flexion of toes 2–5; corrects oblique pull of FDL into straight pull", new: "긴발가락굽힘근의 굽힘 보조, 비스듬한 당김을 똑바른 당김으로 교정", old: "장지굴근의 굴곡 보조, 사방 견인을 직선 견인으로 교정" }
+},
+{
+  en: "Lumbricals (Foot) — 4 muscles",
+  koNew: "벌레근 (발) — 4개",
+  koOld: "충양근 (족) — 4개",
+  region: "Foot",
+  origin: { en: "Tendons of flexor digitorum longus (1st: medial side of 2nd FDL tendon, unipennate; 2nd–4th: bipennate from adjacent tendons)", new: "긴발가락굽힘근힘줄 (첫째: 둘째 힘줄 안쪽, 한깃근 / 둘째~넷째: 인접 힘줄, 두깃근)", old: "장지굴근건 (제1: 제2건 내측, 단우상 / 제2~4: 인접건, 양우상)" },
+  insertion: { en: "Medial side of extensor expansions of toes 2–5", new: "둘째~다섯째 발가락 폄근널힘줄 안쪽", old: "제2~5지 신근건막 내측" },
+  action: { en: "Flexion of MTP joints, extension of IP joints of toes 2–5", new: "둘째~다섯째 발가락 MTP 굽힘, IP 폄", old: "제2~5지 MTP 굴곡, IP 신전" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 26. 발 — 바닥쪽 3층 (PLANTAR LAYER 3)                    ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Flexor Hallucis Brevis (FHB)",
+  koNew: "짧은엄지굽힘근",
+  koOld: "단무지굴근",
+  region: "Foot",
+  origin: { en: "Plantar surfaces of cuboid and lateral cuneiform", new: "입방뼈·가쪽쐐기뼈 바닥쪽면", old: "입방골·외측설상골 족저면" },
+  insertion: { en: "Two heads to medial and lateral sides of base of proximal phalanx of great toe (sesamoid bones embedded)", new: "엄지발가락 첫마디뼈 바닥 안쪽·가쪽 두 갈래 (종자뼈 내장)", old: "무지 근위지골 기저 내·외측 양두 (종자골 함유)" },
+  action: { en: "Flexion of great toe at MTP joint", new: "엄지발가락 MTP관절 굽힘", old: "무지 MTP 굴곡" }
+},
+{
+  en: "Adductor Hallucis",
+  koNew: "엄지모음근",
+  koOld: "무지내전근",
+  region: "Foot",
+  origin: { en: "Oblique head: bases of metatarsals 2–4 and cuboid; Transverse head: plantar MTP ligaments of toes 3–5", new: "빗갈래: 둘째~넷째 발허리뼈 바닥, 입방뼈 / 가로갈래: 셋째~다섯째 발가락 바닥쪽 MTP인대", old: "사두: 제2~4 중족골 기저, 입방골 / 횡두: 제3~5지 족저측 MTP인대" },
+  insertion: { en: "Lateral side of base of proximal phalanx of great toe", new: "엄지발가락 첫마디뼈 바닥 가쪽", old: "무지 근위지골 기저 외측" },
+  action: { en: "Adducts great toe; supports transverse arch (transverse head)", new: "엄지발가락 모음, 가로 발활 지지(가로갈래)", old: "무지 내전, 횡 발활 지지(횡두)" }
+},
+{
+  en: "Flexor Digiti Minimi Brevis (Foot)",
+  koNew: "짧은새끼굽힘근 (발)",
+  koOld: "단소지굴근 (족)",
+  region: "Foot",
+  origin: { en: "Base of 5th metatarsal, sheath of fibularis longus tendon", new: "다섯째 발허리뼈 바닥, 긴종아리근힘줄 윤활집", old: "제5 중족골 기저, 장비골근건초" },
+  insertion: { en: "Lateral side of base of proximal phalanx of 5th toe", new: "다섯째 발가락 첫마디뼈 바닥 가쪽", old: "제5지 근위지골 기저 외측" },
+  action: { en: "Flexion of 5th toe at MTP", new: "새끼발가락 MTP관절 굽힘", old: "소지 MTP 굴곡" }
+},
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║ 27. 발 — 바닥쪽 4층 (PLANTAR LAYER 4)                    ║
+// ╚══════════════════════════════════════════════════════════╝
+{
+  en: "Dorsal Interossei (Foot) — 4 muscles",
+  koNew: "등쪽뼈사이근 (발) — 4개",
+  koOld: "배측골간근 (족) — 4개",
+  region: "Foot",
+  origin: { en: "Adjacent sides of metatarsals 1–5 (bipennate)", new: "1–5번 발허리뼈 마주보는 면 (두깃근)", old: "제1–5 중족골 인접면 (양우상근)" },
+  insertion: { en: "Bases of proximal phalanges of toes 2–4 (1st on medial side of 2nd toe; 2nd–4th on lateral sides of toes 2–4)", new: "둘째~넷째 발가락 첫마디뼈 바닥 (1번: 둘째 발가락 안쪽 / 2~4번: 둘째~넷째 발가락 가쪽)", old: "제2–4지 근위지골 기저 (제1: 제2지 내측 / 제2–4: 제2–4지 외측)" },
+  action: { en: "Abduction of toes 2–4 from 2nd toe axis (DAB - Dorsal ABduct); flexion of MTP, extension of IP", new: "둘째~넷째 발가락 벌림 (둘째 발가락 축에서, DAB), MTP 굽힘·IP 폄", old: "제2~4지 외전 (제2지 축, DAB), MTP 굴곡·IP 신전" }
+},
+{
+  en: "Plantar Interossei (Foot) — 3 muscles",
+  koNew: "바닥쪽뼈사이근 (발) — 3개",
+  koOld: "족측골간근 (족) — 3개",
+  region: "Foot",
+  origin: { en: "Medial sides of metatarsals 3–5 (unipennate)", new: "셋째~다섯째 발허리뼈 안쪽면 (한깃근)", old: "제3~5 중족골 내측면 (단우상근)" },
+  insertion: { en: "Medial sides of bases of proximal phalanges of toes 3–5", new: "셋째~다섯째 발가락 첫마디뼈 바닥 안쪽", old: "제3~5지 근위지골 기저 내측" },
+  action: { en: "Adduction of toes 3–5 toward 2nd toe (PAD - Plantar ADduct); flexion of MTP, extension of IP", new: "셋째~다섯째 발가락 모음 (둘째 발가락으로, PAD), MTP 굽힘·IP 폄", old: "제3~5지 내전 (제2지 방향, PAD), MTP 굴곡·IP 신전" }
+},
+];
+
+// END OF MUSCLE DATABASE
+
+// ============================================================
+// APP LOGIC
+// ============================================================
+const list = document.getElementById('muscle-list');
+const search = document.getElementById('search');
+const filtersEl = document.getElementById('filters');
+const resultCount = document.getElementById('result-count');
+document.getElementById('total-count').textContent = muscles.length;
+
+// Region order — head to toe
+const REGION_ORDER = [
+  "Face", "Mastication", "Neck",
+  "Back", "Trunk", "Pelvic Floor",
+  "Shoulder", "Arm", "Forearm", "Hand",
+  "Hip", "Thigh", "Leg", "Foot"
+];
+const REGION_KO = {
+  "Face": "얼굴", "Mastication": "저작", "Neck": "목",
+  "Back": "등", "Trunk": "몸통", "Pelvic Floor": "골반저",
+  "Shoulder": "어깨", "Arm": "위팔", "Forearm": "아래팔", "Hand": "손",
+  "Hip": "엉덩", "Thigh": "넙다리", "Leg": "종아리", "Foot": "발"
+};
+
+// Build filter chips
+const presentRegions = new Set(muscles.map(m => m.region));
+REGION_ORDER.forEach(r => {
+  if (!presentRegions.has(r)) return;
+  const btn = document.createElement('button');
+  btn.className = 'chip';
+  btn.dataset.region = r;
+  btn.textContent = REGION_KO[r] || r;
+  filtersEl.appendChild(btn);
+});
+
+let activeRegion = 'all';
+let query = '';
+
+filtersEl.addEventListener('click', e => {
+  if (!e.target.classList.contains('chip')) return;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  activeRegion = e.target.dataset.region;
+  render();
+});
+
+search.addEventListener('input', e => {
+  query = e.target.value.trim().toLowerCase();
+  render();
+});
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function highlight(text, q) {
+  const escaped = escapeHtml(text);
+  if (!q) return escaped;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return escaped.replace(re, '<mark>$1</mark>');
+}
+
+function matches(m, q) {
+  if (!q) return true;
+  const haystack = [
+    m.en, m.koNew, m.koOld, m.region,
+    m.origin.en, m.origin.new, m.origin.old,
+    m.insertion.en, m.insertion.new, m.insertion.old,
+    m.action.en, m.action.new, m.action.old
+  ].join(' ').toLowerCase();
+  return haystack.includes(q);
+}
+
+function render() {
+  const filtered = muscles.filter(m =>
+    (activeRegion === 'all' || m.region === activeRegion) && matches(m, query)
+  );
+
+  if (query || activeRegion !== 'all') {
+    resultCount.innerHTML = `<span class="count-strong">${filtered.length}</span> 개 표시 중`;
+  } else {
+    resultCount.innerHTML = `<span class="count-strong">${muscles.length}</span> muscles · head to toe`;
+  }
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="display">No matches.</div>
+        <div class="sub">검색어나 부위 필터를 다시 확인해 주세요.</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(m => `
+    <article class="muscle-card">
+      <div class="muscle-name">
+        <span class="muscle-region">${escapeHtml(REGION_KO[m.region] || m.region)}</span>
+        <div class="muscle-en">${highlight(m.en, query)}</div>
+        <div class="muscle-ko-new">${highlight(m.koNew, query)}</div>
+        <div class="muscle-ko-old">${highlight(m.koOld, query)}</div>
+      </div>
+      <div class="muscle-info">
+        ${row('Origin', '이는곳', m.origin)}
+        ${row('Insertion', '닿는곳', m.insertion)}
+        ${row('Action', '작용', m.action)}
+      </div>
+    </article>
+  `).join('');
+}
+
+function row(labelEn, labelKo, data) {
+  return `
+    <div class="info-row">
+      <div class="info-label">${labelEn}<span class="ko-tag">${labelKo}</span></div>
+      <div class="info-content">
+        <div class="en">${highlight(data.en, query)}</div>
+        <div class="ko-new">${highlight(data.new, query)}</div>
+        <div class="ko-old">${highlight(data.old, query)}</div>
+      </div>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>
